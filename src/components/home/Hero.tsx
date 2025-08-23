@@ -24,14 +24,68 @@ const stats = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-white via-orange-50/30 to-white">
-      {/* Background Pattern */}
-      <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(252,86,2,0.05)_25%,rgba(252,86,2,0.05)_50%,transparent_50%,transparent_75%,rgba(252,86,2,0.05)_75%)] bg-[length:20px_20px]" />
+    <section className="relative overflow-hidden bg-gradient-to-br from-slate-50 via-orange-50/40 to-blue-50/30">
+      {/* Animated Background Pattern */}
+      {/* <div className="absolute inset-0">
+        <div className="absolute inset-0 bg-[linear-gradient(45deg,transparent_25%,rgba(252,86,2,0.03)_25%,rgba(252,86,2,0.03)_50%,transparent_50%,transparent_75%,rgba(252,86,2,0.03)_75%)] bg-[length:40px_40px] animate-pulse" />
+        <div className="absolute inset-0 bg-[linear-gradient(-45deg,transparent_25%,rgba(59,130,246,0.02)_25%,rgba(59,130,246,0.02)_50%,transparent_50%,transparent_75%,rgba(59,130,246,0.02)_75%)] bg-[length:60px_60px]" />
+      </div> */}
       
-      {/* Floating Elements */}
-      <div className="absolute top-20 left-10 w-20 h-20 bg-[#FC5602]/10 rounded-full blur-xl" />
-      <div className="absolute top-40 right-20 w-32 h-32 bg-[#FC5602]/10 rounded-full blur-xl" />
-      <div className="absolute bottom-20 left-20 w-24 h-24 bg-[#FC5602]/10 rounded-full blur-xl" />
+      {/* Enhanced Floating Elements with Animation */}
+      <motion.div 
+        animate={{ 
+          y: [0, -20, 0],
+          x: [0, 10, 0],
+          scale: [1, 1.1, 1]
+        }}
+        transition={{ 
+          duration: 8,
+          repeat: Infinity,
+          ease: "easeInOut" 
+        }}
+        className="absolute top-20 left-10 w-24 h-24 bg-gradient-to-br from-[#FC5602]/20 to-[#FF7B02]/10 rounded-full blur-xl"
+      />
+      <motion.div 
+        animate={{ 
+          y: [0, 15, 0],
+          x: [0, -15, 0],
+          scale: [1, 0.9, 1]
+        }}
+        transition={{ 
+          duration: 10,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 2
+        }}
+        className="absolute top-40 right-20 w-36 h-36 bg-gradient-to-br from-blue-500/15 to-purple-500/10 rounded-full blur-xl"
+      />
+      <motion.div 
+        animate={{ 
+          y: [0, -10, 0],
+          x: [0, 20, 0],
+          scale: [1, 1.2, 1]
+        }}
+        transition={{ 
+          duration: 12,
+          repeat: Infinity,
+          ease: "easeInOut",
+          delay: 4
+        }}
+        className="absolute bottom-20 left-20 w-28 h-28 bg-gradient-to-br from-green-500/15 to-[#FC5602]/10 rounded-full blur-xl"
+      />
+      <motion.div 
+        animate={{ 
+          y: [0, 25, 0],
+          x: [0, -10, 0],
+          rotate: [0, 180, 360]
+        }}
+        transition={{ 
+          duration: 15,
+          repeat: Infinity,
+          ease: "linear"
+        }}
+        className="absolute top-1/2 right-10 w-20 h-20 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-lg"
+      />
 
       <div className="container-width section-padding relative">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-[600px]">
@@ -155,7 +209,7 @@ export function Hero() {
                   repeat: Infinity,
                   ease: "easeInOut" 
                 }}
-                className="bg-white rounded-3xl shadow-2xl p-8 border border-gray-100"
+                className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-gray-200/50 ring-1 ring-gray-100/50"
               >
                 <div className="space-y-6">
                   <div className="flex items-center justify-between">
@@ -189,13 +243,13 @@ export function Hero() {
                   </div>
                   
                   <div className="grid grid-cols-2 gap-4 text-center">
-                    <div className="p-3 bg-gray-50 rounded-xl">
+                    <div className="p-4 bg-gradient-to-br from-orange-50 to-orange-100/50 rounded-xl border border-orange-200/30">
                       <p className="text-2xl font-bold text-[#FC5602]">$5,000</p>
-                      <p className="text-xs text-gray-600">Prize Pool</p>
+                      <p className="text-xs text-gray-600 font-medium">Prize Pool</p>
                     </div>
-                    <div className="p-3 bg-gray-50 rounded-xl">
-                      <p className="text-2xl font-bold text-[#FC5602]">247</p>
-                      <p className="text-xs text-gray-600">Participants</p>
+                    <div className="p-4 bg-gradient-to-br from-blue-50 to-blue-100/50 rounded-xl border border-blue-200/30">
+                      <p className="text-2xl font-bold text-blue-600">247</p>
+                      <p className="text-xs text-gray-600 font-medium">Participants</p>
                     </div>
                   </div>
                 </div>

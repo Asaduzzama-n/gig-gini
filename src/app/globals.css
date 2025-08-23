@@ -41,6 +41,8 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
 }
 
 :root {
@@ -101,6 +103,19 @@
     /* Gradient colors */
     --gradient-start: 16 100% 50%;
     --gradient-end: 33 100% 50%;
+    
+    /* Border radius */
+    --radius: 0.75rem; /* 12px - increased from default */
+    
+    /* Sidebar colors */
+    --sidebar: 0 0% 98%;
+    --sidebar-foreground: 222.2 84% 4.9%;
+    --sidebar-primary: 16 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222.2 84% 4.9%;
+    --sidebar-border: 214.3 31.8% 91.4%;
+    --sidebar-ring: 16 100% 50%;
 }
 
 .dark {
@@ -132,6 +147,16 @@
     
     --popover: 222.2 84% 4.9%;
     --popover-foreground: 210 40% 98%;
+    
+    /* Sidebar colors for dark mode */
+    --sidebar: 217.2 32.6% 17.5%;
+    --sidebar-foreground: 210 40% 98%;
+    --sidebar-primary: 16 100% 50%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 217.2 32.6% 20%;
+    --sidebar-accent-foreground: 210 40% 98%;
+    --sidebar-border: 217.2 32.6% 20%;
+    --sidebar-ring: 16 100% 50%;
 }
 
 @layer base {
@@ -151,11 +176,11 @@
 @layer components {
   /* Custom GiG Gini components */
   .btn-primary {
-    @apply bg-[#FC5602] hover:bg-[#E04D02] text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 shadow-md hover:shadow-lg;
+    @apply bg-[#FC5602] hover:bg-[#E04D02] text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg hover:scale-105;
   }
   
   .btn-outline {
-    @apply border-2 border-[#FC5602] text-[#FC5602] hover:bg-[#FC5602] hover:text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200;
+    @apply border-2 border-[#FC5602] text-[#FC5602] hover:bg-[#FC5602] hover:text-white font-semibold px-6 py-3 rounded-xl transition-all duration-200 hover:scale-105;
   }
   
   .gradient-bg {
@@ -170,7 +195,19 @@
   }
   
   .card-hover {
-    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+    @apply transition-all duration-300 hover:shadow-xl hover:-translate-y-1 rounded-xl;
+  }
+  
+  .card-rounded {
+    @apply rounded-xl border border-gray-200/50 bg-white/95 backdrop-blur-sm;
+  }
+  
+  .input-rounded {
+    @apply rounded-xl border-gray-300 focus:border-[#FC5602] focus:ring-[#FC5602]/20 transition-all duration-200;
+  }
+  
+  .checkbox-rounded {
+    @apply rounded-md border-gray-300 text-[#FC5602] focus:ring-[#FC5602]/20;
   }
   
   .section-padding {
@@ -238,4 +275,21 @@
 
 .pulse-animation {
   animation: pulse 2s infinite;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  50% {
+    transform: translateY(-20px) scale(1.05);
+  }
+}
+
+.animate-bubble {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-bubble-slow {
+  animation: float 10s ease-in-out infinite;
 }

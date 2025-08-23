@@ -179,13 +179,13 @@ export function UpcomingFeatures() {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.1 }}
             >
-              <Card className="card-hover border-0 shadow-lg h-full">
+              <Card className="card-hover border-0 shadow-lg h-full rounded-xl bg-white/95 backdrop-blur-sm">
                 <CardContent className="p-8 space-y-6">
                   <div className="flex items-center justify-between">
-                    <div className={`w-12 h-12 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center`}>
-                      <feature.icon className="w-6 h-6 text-white" />
+                    <div className={`w-14 h-14 bg-gradient-to-br ${feature.color} rounded-xl flex items-center justify-center shadow-lg`}>
+                      <feature.icon className="w-7 h-7 text-white" />
                     </div>
-                    <Badge variant="outline" className="text-xs">
+                    <Badge variant="outline" className="text-xs rounded-full px-3 py-1 bg-gradient-to-r from-gray-50 to-gray-100 border-gray-200">
                       {feature.comingSoon}
                     </Badge>
                   </div>
@@ -199,12 +199,14 @@ export function UpcomingFeatures() {
                     </p>
                   </div>
                   
-                  <div className="space-y-2">
+                  <div className="space-y-3">
                     <p className="text-sm font-semibold text-gray-700 mb-3">Key Benefits:</p>
                     {feature.benefits.map((benefit, idx) => (
-                      <div key={idx} className="flex items-center space-x-2">
-                        <CheckCircle className="w-4 h-4 text-green-500 shrink-0" />
-                        <span className="text-sm text-gray-600">{benefit}</span>
+                      <div key={idx} className="flex items-center space-x-3">
+                        <div className="w-5 h-5 rounded-full bg-green-100 flex items-center justify-center flex-shrink-0">
+                          <CheckCircle className="w-3 h-3 text-green-600" />
+                        </div>
+                        <span className="text-sm text-gray-600 font-medium">{benefit}</span>
                       </div>
                     ))}
                   </div>
@@ -214,65 +216,121 @@ export function UpcomingFeatures() {
           ))}
         </div>
 
-        {/* Waitlist Signup Section */}
+        {/* Waitlist Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.3 }}
+          transition={{ duration: 0.8 }}
+          className="max-w-2xl mx-auto"
         >
-          <Card className="bg-gradient-to-br from-gray-900 to-gray-800 border-0 text-white overflow-hidden">
-            <CardContent className="p-0">
-              <div className="p-8">
-                <h2 className="text-3xl font-bold text-white mb-6">
-                  Join the Waitlist
-                </h2>
-                <p className="text-gray-300 mb-8">
-                  Be the first to get access to our exclusive features and early beta testing.
+          <Card className="border-0 shadow-xl bg-gradient-to-br from-[#FC5602]/5 to-[#FF7B02]/5 rounded-2xl">
+            <CardContent className="p-8 space-y-6">
+              <div className="text-center space-y-4">
+                <Badge className="bg-[#FC5602]/10 text-[#FC5602] border-[#FC5602]/20 rounded-full px-4 py-2">
+                  <Gift className="w-3 h-3 mr-1" />
+                  Early Access
+                </Badge>
+                <h3 className="text-2xl font-bold text-gray-900">
+                  Join the <span className="gradient-text">Waitlist</span>
+                </h3>
+                <p className="text-gray-600">
+                  Be among the first to experience these amazing features when they launch.
                 </p>
-                <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
+              </div>
+
+              {/* Waitlist Benefits */}
+              <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 space-y-3 border border-gray-200/50">
+                <h4 className="font-semibold text-gray-900 mb-4">What you'll get:</h4>
+                {waitlistBenefits.map((benefit, index) => (
+                  <div key={index} className="flex items-center space-x-3">
+                    <div className="w-5 h-5 rounded-full bg-[#FC5602]/10 flex items-center justify-center flex-shrink-0">
+                      <CheckCircle className="w-3 h-3 text-[#FC5602]" />
+                    </div>
+                    <span className="text-sm text-gray-700 font-medium">{benefit}</span>
+                  </div>
+                ))}
+              </div>
+
+              {/* Waitlist Form */}
+              <div className="space-y-4">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
-                      aria-label="Name"
+                      type="text"
+                      placeholder="Your name"
                       value={form.name}
-                      onChange={(e) => setForm(prev => ({...prev, name: e.target.value}))}
-                      name="name"
-                      placeholder="Enter your name"
+                      onChange={(e) => setForm({ ...form, name: e.target.value })}
+                      className="input-rounded h-12 bg-white/80 backdrop-blur-sm"
                       required
                     />
                     <Input
-                      aria-label="Email"
-                      value={form.email}
-                      onChange={(e) => setForm(prev => ({...prev, email: e.target.value}))}
-                      name="email"
                       type="email"
-                      placeholder="Enter your email"
+                      placeholder="Your email"
+                      value={form.email}
+                      onChange={(e) => setForm({ ...form, email: e.target.value })}
+                      className="input-rounded h-12 bg-white/80 backdrop-blur-sm"
                       required
                     />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        checked={form.role === 'job-seeker'}
-                        onChange={() => setForm({ ...form, role: 'job-seeker' })}
-                      />
-                      <span>Job Seeker</span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Checkbox
-                        checked={form.role === 'employer'}
-                        onChange={() => setForm({ ...form, role: 'employer' })}
-                      />
-                      <span>Employer</span>
+                  
+                  <div className="space-y-4">
+                    <p className="text-sm font-medium text-gray-700">I am a:</p>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/60 border border-gray-200/50 flex-1">
+                        <Checkbox
+                          id="job-seeker"
+                          checked={form.role === 'job-seeker'}
+                          onCheckedChange={() => setForm({ ...form, role: 'job-seeker' })}
+                          className="checkbox-rounded"
+                        />
+                        <label htmlFor="job-seeker" className="text-sm font-medium cursor-pointer">Job Seeker</label>
+                      </div>
+                      <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/60 border border-gray-200/50 flex-1">
+                        <Checkbox
+                          id="employer"
+                          checked={form.role === 'employer'}
+                          onCheckedChange={() => setForm({ ...form, role: 'employer' })}
+                          className="checkbox-rounded"
+                        />
+                        <label htmlFor="employer" className="text-sm font-medium cursor-pointer">Employer</label>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-center justify-between">
-            <CardContent className="p-0">
-                  <Button type="submit" className="w-full">
-                    Join Waitlist
+                  
+                  <div className="flex items-center space-x-3 p-3 rounded-xl bg-white/60 border border-gray-200/50">
+                    <Checkbox
+                      id="notifications"
+                      checked={form.notifications}
+                      onCheckedChange={(checked) => setForm({ ...form, notifications: !!checked })}
+                      className="checkbox-rounded"
+                    />
+                    <label htmlFor="notifications" className="text-sm text-gray-700 cursor-pointer">
+                      Send me email updates about new features and competitions
+                    </label>
+                  </div>
+                  
+                  <Button 
+                    type="submit" 
+                    disabled={isSubmitting}
+                    className="w-full btn-primary h-12 text-lg rounded-xl"
+                  >
+                    {isSubmitting ? (
+                      <>
+                        <motion.div
+                          animate={{ rotate: 360 }}
+                          transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                          className="w-5 h-5 border-2 border-white border-t-transparent rounded-full mr-2"
+                        />
+                        Joining...
+                      </>
+                    ) : (
+                      <>
+                        Join Waitlist
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </>
+                    )}
                   </Button>
-            </CardContent>
-                  </div>
                 </form>
               </div>
             </CardContent>

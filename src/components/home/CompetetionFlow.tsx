@@ -184,7 +184,7 @@ export function CompetitionFlow() {
                         viewport={{ once: true }}
                         transition={{ delay: (index * 0.2) + 0.5, duration: 0.6 }}
                       >
-                        <ArrowRight className={`w-8 h-8 text-gray-300 ${index % 2 === 1 ? 'rotate-180' : ''}`} />
+                        {/* <ArrowRight className={`w-8 h-8 text-gray-300 ${index % 2 === 1 ? 'rotate-180' : ''}`} /> */}
                       </motion.div>
                     </div>
                   )}

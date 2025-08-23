@@ -251,14 +251,14 @@ export function BenefitsSection() {
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="bg-white text-[#FC5602] px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-lg transition-all"
+                  className="bg-white text-[#FC5602] px-8 py-4 rounded-lg cursor-pointer font-semibold text-lg hover:shadow-lg transition-all"
                 >
                   Start as Job Seeker
                 </motion.button>
                 <motion.button
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
-                  className="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-[#FC5602] transition-all"
+                  className="border-2 border-white text-white px-8 py-4 cursor-pointer rounded-lg font-semibold text-lg hover:bg-white hover:text-[#FC5602] transition-all"
                 >
                   Hire Top Talent
                 </motion.button>
@@ -268,5 +268,7 @@ export function BenefitsSection() {
         </motion.div>
       </div>
     </section>
+
+    
   );
 }
