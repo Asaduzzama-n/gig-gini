@@ -320,8 +320,8 @@ export function Roadmap() {
                   Join the Hiring Revolution
                 </h3>
                 <p className="text-xl opacity-90 max-w-3xl mx-auto">
-                  Be part of the movement that's changing how the world thinks about talent, 
-                  skills, and career opportunities. Together, we're building a fairer future.
+                  Be part of the movement that&apos;s changing how the world thinks about talent, 
+                  skills, and career opportunities. Together, we&apos;re building a fairer future.
                 </p>
                 
                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">

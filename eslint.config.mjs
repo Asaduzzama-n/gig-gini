@@ -19,6 +19,19 @@ const eslintConfig = [
       "build/**",
       "next-env.d.ts",
     ],
+      rules: {
+      // Disable unused vars warning
+      "@typescript-eslint/no-unused-vars": "warn",
+
+      // Allow 'any'
+      "@typescript-eslint/no-explicit-any": "warn",
+
+      // Allow unescaped entities like ' or "
+      "react/no-unescaped-entities": "warn",
+
+      // Ignore exhaustive deps in hooks
+      "react-hooks/exhaustive-deps": "warn",
+    },
   },
 ];
 

@@ -158,13 +158,13 @@ export function UpcomingFeatures() {
           className="text-center space-y-4 mb-16"
         >
           <Badge className="bg-[#FC5602]/10 text-[#FC5602] border-[#FC5602]/20">
-            What's Next
+            What&apos;s Next
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
             Upcoming <span className="gradient-text">Features</span>
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
-            Get excited for the innovative features we're building to make competitive hiring 
+            Get excited for the innovative features we&apos;re building to make competitive hiring 
             even more powerful and accessible for everyone.
           </p>
         </motion.div>
@@ -241,7 +241,7 @@ export function UpcomingFeatures() {
 
               {/* Waitlist Benefits */}
               <div className="bg-white/70 backdrop-blur-sm rounded-xl p-6 space-y-3 border border-gray-200/50">
-                <h4 className="font-semibold text-gray-900 mb-4">What you'll get:</h4>
+                <h4 className="font-semibold text-gray-900 mb-4">What you&apos;ll get:</h4>
                 {waitlistBenefits.map((benefit, index) => (
                   <div key={index} className="flex items-center space-x-3">
                     <div className="w-5 h-5 rounded-full bg-[#FC5602]/10 flex items-center justify-center flex-shrink-0">
