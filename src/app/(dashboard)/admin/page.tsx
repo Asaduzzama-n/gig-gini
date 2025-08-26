@@ -3,8 +3,8 @@
 
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { 
-  Users, Trophy, Building, BarChart3, Settings, FileText, 
+import {
+  Users, Trophy, Building, BarChart3, Settings, FileText,
   TrendingUp, Eye, Edit, Trash2, UserCheck, Ban, Search,
   Calendar, DollarSign, Award, Activity, ChevronRight
 } from 'lucide-react';
@@ -14,7 +14,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
 import { useAuthStore } from '@/stores/authStore';
-import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
 
 
 
@@ -198,8 +197,8 @@ function AdminDashboardContent() {
   };
 
   const formatDate = (date: Date) => {
-    return date.toLocaleDateString('en-US', { 
-      month: 'short', 
+    return date.toLocaleDateString('en-US', {
+      month: 'short',
       day: 'numeric',
       year: 'numeric'
     });
@@ -284,333 +283,329 @@ function AdminDashboardContent() {
 
       {/* Main Content */}
       <div>
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-5">
-              <TabsTrigger value="overview">Overview</TabsTrigger>
-              <TabsTrigger value="users">Users</TabsTrigger>
-              <TabsTrigger value="competitions">Competitions</TabsTrigger>
-              <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-            </TabsList>
+        <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+          <TabsList className="grid w-full grid-cols-5">
+            <TabsTrigger value="overview">Overview</TabsTrigger>
+            <TabsTrigger value="users">Users</TabsTrigger>
+            <TabsTrigger value="competitions">Competitions</TabsTrigger>
+            <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
+            <TabsTrigger value="analytics">Analytics</TabsTrigger>
+          </TabsList>
 
-            <TabsContent value="overview" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Recent Activity */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Recent Activity</CardTitle>
-                    <CardDescription>Latest system events and user activities</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">New user registration spike</p>
-                          <p className="text-xs text-muted-foreground">2 minutes ago</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">Competition "Frontend Challenge" launched</p>
-                          <p className="text-xs text-muted-foreground">15 minutes ago</p>
-                        </div>
-                      </div>
-                      <div className="flex items-center space-x-4">
-                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
-                        <div className="flex-1">
-                          <p className="text-sm font-medium">System maintenance completed</p>
-                          <p className="text-xs text-muted-foreground">1 hour ago</p>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Platform Health */}
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Platform Health</CardTitle>
-                    <CardDescription>System performance metrics</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">User Engagement</span>
-                          <span className="text-sm text-green-600">92%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-green-600 h-2 rounded-full" style={{ width: '92%' }}></div>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Competition Success Rate</span>
-                          <span className="text-sm text-blue-600">87%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-blue-600 h-2 rounded-full" style={{ width: '87%' }}></div>
-                        </div>
-                      </div>
-                      <div className="space-y-2">
-                        <div className="flex items-center justify-between">
-                          <span className="text-sm font-medium">Revenue Target</span>
-                          <span className="text-sm text-orange-600">76%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-2">
-                          <div className="bg-orange-600 h-2 rounded-full" style={{ width: '76%' }}></div>
-                        </div>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="users" className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">User Management</h2>
-                <div className="flex space-x-2">
-                  <div className="relative">
-                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                    <Input
-                      placeholder="Search users..."
-                      value={searchTerm}
-                      onChange={(e) => setSearchTerm(e.target.value)}
-                      className="pl-10 w-64"
-                    />
-                  </div>
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                    <option>All Users</option>
-                    <option>Employees</option>
-                    <option>Employers</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid gap-4">
-                {users.map(user => (
-                  <Card key={user.id} className="p-6">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4">
-                        <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
-                          {user.name.split(' ').map(n => n[0]).join('')}
-                        </div>
-                        <div>
-                          <h3 className="font-semibold text-gray-900">{user.name}</h3>
-                          <p className="text-sm text-gray-600">{user.email}</p>
-                          <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
-                            <span>{user.type}</span>
-                            <span>Joined: {formatDate(user.joinDate)}</span>
-                            <span>{user.competitions} competitions</span>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center space-x-3">
-                        <Badge className={getStatusColor(user.status)}>
-                          {user.status}
-                        </Badge>
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4 mr-2" />
-                          View
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Edit className="w-4 h-4 mr-2" />
-                          Edit
-                        </Button>
-                        {user.status === 'active' ? (
-                          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                            <Ban className="w-4 h-4 mr-2" />
-                            Suspend
-                          </Button>
-                        ) : (
-                          <Button variant="outline" size="sm" className="text-green-600 hover:text-green-700">
-                            <UserCheck className="w-4 h-4 mr-2" />
-                            Activate
-                          </Button>
-                        )}
-                      </div>
-                    </div>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
-
-            <TabsContent value="competitions" className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Competition Management</h2>
-                <div className="flex space-x-2">
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Pending</option>
-                    <option>Completed</option>
-                  </select>
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                    <option>All Categories</option>
-                    <option>IT</option>
-                    <option>Marketing</option>
-                    <option>Business</option>
-                  </select>
-                </div>
-              </div>
-
-              <div className="grid gap-6">
-                {competitions.map(competition => (
-                  <Card key={competition.id} className="p-6">
-                    <div className="flex items-start justify-between mb-4">
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* Recent Activity */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Recent Activity</CardTitle>
+                  <CardDescription>Latest system events and user activities</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-2 h-2 bg-green-500 rounded-full"></div>
                       <div className="flex-1">
-                        <div className="flex items-center space-x-3 mb-2">
-                          <h3 className="text-xl font-semibold text-gray-900">{competition.title}</h3>
-                          <Badge className={getStatusColor(competition.status)}>
-                            {competition.status}
-                          </Badge>
-                        </div>
-                        
-                        <p className="text-gray-600 mb-3">by {competition.organizer}</p>
-
-                        <div className="flex flex-wrap gap-2 mb-3">
-                          {competition.categories.map(category => (
-                            <Badge key={category} variant="outline" className="text-xs">
-                              {category}
-                            </Badge>
-                          ))}
-                        </div>
-
-                        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
-                          <div className="flex items-center">
-                            <Users className="w-4 h-4 mr-2" />
-                            {competition.participants} participants
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-2" />
-                            {formatDate(competition.startDate)}
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-2" />
-                            {formatDate(competition.endDate)}
-                          </div>
-                          <div className="flex items-center">
-                            <DollarSign className="w-4 h-4 mr-2" />
-                            {formatCurrency(competition.revenue)}
-                          </div>
-                        </div>
-                      </div>
-
-                      <div className="flex space-x-2 ml-4">
-                        <Button variant="outline" size="sm">
-                          <Eye className="w-4 h-4 mr-2" />
-                          View
-                        </Button>
-                        <Button variant="outline" size="sm">
-                          <Edit className="w-4 h-4 mr-2" />
-                          Manage
-                        </Button>
-                        {competition.status === 'pending' && (
-                          <Button size="sm" className="bg-green-600 hover:bg-green-700">
-                            Approve
-                          </Button>
-                        )}
+                        <p className="text-sm font-medium">New user registration spike</p>
+                        <p className="text-xs text-muted-foreground">2 minutes ago</p>
                       </div>
                     </div>
-                  </Card>
-                ))}
-              </div>
-            </TabsContent>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">Competition "Frontend Challenge" launched</p>
+                        <p className="text-xs text-muted-foreground">15 minutes ago</p>
+                      </div>
+                    </div>
+                    <div className="flex items-center space-x-4">
+                      <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                      <div className="flex-1">
+                        <p className="text-sm font-medium">System maintenance completed</p>
+                        <p className="text-xs text-muted-foreground">1 hour ago</p>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
 
-            <TabsContent value="subscriptions" className="space-y-6">
-              <div className="flex items-center justify-between">
-                <h2 className="text-xl font-semibold">Subscription Management</h2>
-                <div className="flex space-x-2">
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                    <option>All Plans</option>
-                    <option>Basic</option>
-                    <option>Premium</option>
-                    <option>Enterprise</option>
-                  </select>
-                  <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
-                    <option>All Status</option>
-                    <option>Active</option>
-                    <option>Expired</option>
-                    <option>Cancelled</option>
-                  </select>
+              {/* Platform Health */}
+              <Card>
+                <CardHeader>
+                  <CardTitle>Platform Health</CardTitle>
+                  <CardDescription>System performance metrics</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <div className="space-y-4">
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">User Engagement</span>
+                        <span className="text-sm text-green-600">92%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-green-600 h-2 rounded-full" style={{ width: '92%' }}></div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Competition Success Rate</span>
+                        <span className="text-sm text-blue-600">87%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-blue-600 h-2 rounded-full" style={{ width: '87%' }}></div>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium">Revenue Target</span>
+                        <span className="text-sm text-orange-600">76%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 rounded-full h-2">
+                        <div className="bg-orange-600 h-2 rounded-full" style={{ width: '76%' }}></div>
+                      </div>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="users" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">User Management</h2>
+              <div className="flex space-x-2">
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                  <Input
+                    placeholder="Search users..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                    className="pl-10 w-64"
+                  />
                 </div>
+                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                  <option>All Users</option>
+                  <option>Employees</option>
+                  <option>Employers</option>
+                </select>
               </div>
+            </div>
 
-              <div className="grid gap-4">
-                {subscriptions.map(subscription => (
-                  <Card key={subscription.id} className="p-6">
-                    <div className="flex items-center justify-between">
+            <div className="grid gap-4">
+              {users.map(user => (
+                <Card key={user.id} className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-12 h-12 bg-gradient-to-r from-orange-400 to-orange-600 rounded-full flex items-center justify-center text-white font-semibold">
+                        {user.name.split(' ').map(n => n[0]).join('')}
+                      </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900 mb-1">{subscription.userName}</h3>
-                        <div className="flex items-center space-x-4 text-sm text-gray-600">
-                          <Badge className={getPlanColor(subscription.plan)}>
-                            {subscription.plan}
-                          </Badge>
-                          <span>Started: {formatDate(subscription.startDate)}</span>
-                          <span>Ends: {formatDate(subscription.endDate)}</span>
-                          <span>{formatCurrency(subscription.amount)}/year</span>
+                        <h3 className="font-semibold text-gray-900">{user.name}</h3>
+                        <p className="text-sm text-gray-600">{user.email}</p>
+                        <div className="flex items-center space-x-4 mt-1 text-sm text-gray-500">
+                          <span>{user.type}</span>
+                          <span>Joined: {formatDate(user.joinDate)}</span>
+                          <span>{user.competitions} competitions</span>
                         </div>
                       </div>
+                    </div>
 
-                      <div className="flex items-center space-x-3">
-                        <Badge className={getStatusColor(subscription.status)}>
-                          {subscription.status}
-                        </Badge>
-                        <Button variant="outline" size="sm">
-                          View Details
+                    <div className="flex items-center space-x-3">
+                      <Badge className={getStatusColor(user.status)}>
+                        {user.status}
+                      </Badge>
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4 mr-2" />
+                        View
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4 mr-2" />
+                        Edit
+                      </Button>
+                      {user.status === 'active' ? (
+                        <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                          <Ban className="w-4 h-4 mr-2" />
+                          Suspend
                         </Button>
+                      ) : (
+                        <Button variant="outline" size="sm" className="text-green-600 hover:text-green-700">
+                          <UserCheck className="w-4 h-4 mr-2" />
+                          Activate
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="competitions" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Competition Management</h2>
+              <div className="flex space-x-2">
+                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Pending</option>
+                  <option>Completed</option>
+                </select>
+                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                  <option>All Categories</option>
+                  <option>IT</option>
+                  <option>Marketing</option>
+                  <option>Business</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid gap-6">
+              {competitions.map(competition => (
+                <Card key={competition.id} className="p-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="flex-1">
+                      <div className="flex items-center space-x-3 mb-2">
+                        <h3 className="text-xl font-semibold text-gray-900">{competition.title}</h3>
+                        <Badge className={getStatusColor(competition.status)}>
+                          {competition.status}
+                        </Badge>
+                      </div>
+
+                      <p className="text-gray-600 mb-3">by {competition.organizer}</p>
+
+                      <div className="flex flex-wrap gap-2 mb-3">
+                        {competition.categories.map(category => (
+                          <Badge key={category} variant="outline" className="text-xs">
+                            {category}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-gray-600">
+                        <div className="flex items-center">
+                          <Users className="w-4 h-4 mr-2" />
+                          {competition.participants} participants
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-2" />
+                          {formatDate(competition.startDate)}
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-2" />
+                          {formatDate(competition.endDate)}
+                        </div>
+                        <div className="flex items-center">
+                          <DollarSign className="w-4 h-4 mr-2" />
+                          {formatCurrency(competition.revenue)}
+                        </div>
                       </div>
                     </div>
-                  </Card>
-                ))}
+
+                    <div className="flex space-x-2 ml-4">
+                      <Button variant="outline" size="sm">
+                        <Eye className="w-4 h-4 mr-2" />
+                        View
+                      </Button>
+                      <Button variant="outline" size="sm">
+                        <Edit className="w-4 h-4 mr-2" />
+                        Manage
+                      </Button>
+                      {competition.status === 'pending' && (
+                        <Button size="sm" className="bg-green-600 hover:bg-green-700">
+                          Approve
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                </Card>
+              ))}
+            </div>
+          </TabsContent>
+
+          <TabsContent value="subscriptions" className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-semibold">Subscription Management</h2>
+              <div className="flex space-x-2">
+                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                  <option>All Plans</option>
+                  <option>Basic</option>
+                  <option>Premium</option>
+                  <option>Enterprise</option>
+                </select>
+                <select className="px-3 py-2 border border-gray-300 rounded-lg text-sm">
+                  <option>All Status</option>
+                  <option>Active</option>
+                  <option>Expired</option>
+                  <option>Cancelled</option>
+                </select>
               </div>
-            </TabsContent>
+            </div>
 
-            <TabsContent value="analytics" className="space-y-6">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">User Growth</h3>
-                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-                    <p className="text-gray-500">Chart visualization would go here</p>
+            <div className="grid gap-4">
+              {subscriptions.map(subscription => (
+                <Card key={subscription.id} className="p-6">
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <h3 className="font-semibold text-gray-900 mb-1">{subscription.userName}</h3>
+                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                        <Badge className={getPlanColor(subscription.plan)}>
+                          {subscription.plan}
+                        </Badge>
+                        <span>Started: {formatDate(subscription.startDate)}</span>
+                        <span>Ends: {formatDate(subscription.endDate)}</span>
+                        <span>{formatCurrency(subscription.amount)}/year</span>
+                      </div>
+                    </div>
+
+                    <div className="flex items-center space-x-3">
+                      <Badge className={getStatusColor(subscription.status)}>
+                        {subscription.status}
+                      </Badge>
+                      <Button variant="outline" size="sm">
+                        View Details
+                      </Button>
+                    </div>
                   </div>
                 </Card>
+              ))}
+            </div>
+          </TabsContent>
 
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Revenue Trends</h3>
-                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-                    <p className="text-gray-500">Revenue chart would go here</p>
-                  </div>
-                </Card>
+          <TabsContent value="analytics" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">User Growth</h3>
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+                  <p className="text-gray-500">Chart visualization would go here</p>
+                </div>
+              </Card>
 
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Competition Performance</h3>
-                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-                    <p className="text-gray-500">Performance metrics chart would go here</p>
-                  </div>
-                </Card>
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Revenue Trends</h3>
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+                  <p className="text-gray-500">Revenue chart would go here</p>
+                </div>
+              </Card>
 
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">User Engagement</h3>
-                  <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
-                    <p className="text-gray-500">Engagement analytics would go here</p>
-                  </div>
-                </Card>
-              </div>
-            </TabsContent>
-          </Tabs>
-        </div>
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">Competition Performance</h3>
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+                  <p className="text-gray-500">Performance metrics chart would go here</p>
+                </div>
+              </Card>
+
+              <Card className="p-6">
+                <h3 className="text-lg font-semibold mb-4">User Engagement</h3>
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded">
+                  <p className="text-gray-500">Engagement analytics would go here</p>
+                </div>
+              </Card>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
 
 export default function AdminDashboard() {
-  return (
-    <ProtectedRoute allowedRoles={['admin']}>
-      <AdminDashboardContent />
-    </ProtectedRoute>
-  );
+  return <AdminDashboardContent />;
 }
