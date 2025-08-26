@@ -25,7 +25,7 @@ export default function DashboardLayout({
   className
 }: DashboardLayoutProps) {
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <DashboardSidebar
         userRole={userRole}
@@ -38,7 +38,7 @@ export default function DashboardLayout({
       {/* Main Content */}
       <div className="flex-1 ml-16 md:ml-64 transition-all duration-300">
         <main className={cn(
-          "h-full overflow-auto bg-gradient-to-br from-gray-50 to-orange-50",
+          "min-h-screen overflow-auto bg-gray-50",
           className
         )}>
           {children}

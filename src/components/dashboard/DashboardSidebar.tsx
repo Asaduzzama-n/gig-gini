@@ -1,8 +1,8 @@
 // components/dashboard/DashboardSidebar.tsx
 "use client";
 
-import { useState } from 'react';
 import { motion } from 'framer-motion';
+import { useSidebar } from '@/contexts/SidebarContext';
 import { 
   ChevronLeft, ChevronRight, Home, User, Settings, LogOut,
   Users, Trophy, Building, BarChart3, FileText, Award,
@@ -73,7 +73,7 @@ export default function DashboardSidebar({
   userName = "User",
   userAvatar 
 }: DashboardSidebarProps) {
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { isCollapsed, isMobileOpen, toggleCollapse, toggleMobile } = useSidebar();
 
   const getMenuItems = () => {
     switch (userRole) {
@@ -105,15 +105,49 @@ export default function DashboardSidebar({
   };
 
   return (
-    <motion.div
-      initial={{ x: -250 }}
-      animate={{ x: 0 }}
-      transition={{ duration: 0.3 }}
-      className={cn(
-        "fixed left-0 top-0 h-full bg-white border-r border-gray-200 shadow-lg z-40 transition-all duration-300",
-        isCollapsed ? "w-16" : "w-64"
+    <>
+      {/* Mobile Menu Button */}
+      <button
+        onClick={toggleMobile}
+        className="md:hidden fixed top-20 left-4 z-50 p-2 bg-white rounded-lg shadow-lg border border-gray-200"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+
+      {/* Mobile Overlay */}
+      {isMobileOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black bg-opacity-50 z-40"
+          onClick={() => toggleMobile()}
+        />
       )}
-    >
+
+      {/* Sidebar */}
+      <motion.div
+        initial={{ x: -250 }}
+        animate={{ x: 0 }}
+        transition={{ duration: 0.3 }}
+        className={cn(
+          "flex flex-col fixed left-0 top-16 bg-white border-r border-gray-200 shadow-lg transition-all duration-300 z-40",
+          // Desktop styles
+          "md:flex",
+          isCollapsed ? "md:w-16" : "md:w-64",
+          // Mobile styles
+          isMobileOpen ? "flex w-64 z-50" : "hidden md:flex",
+          "h-[calc(100vh-4rem)]"
+        )}
+      >
+        {/* Mobile Close Button */}
+        <button
+          onClick={() => toggleMobile()}
+          className="md:hidden absolute top-4 right-4 p-1 text-gray-500 hover:text-gray-700"
+        >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
       {/* Header */}
       <div className="p-4 border-b border-gray-200">
         <div className="flex items-center justify-between">
@@ -126,7 +160,7 @@ export default function DashboardSidebar({
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => setIsCollapsed(!isCollapsed)}
+            onClick={toggleCollapse}
             className="h-8 w-8 p-0"
           >
             {isCollapsed ? (
@@ -212,12 +246,13 @@ export default function DashboardSidebar({
         </button>
       </div>
 
-      {/* Collapsed state tooltip indicator */}
-      {isCollapsed && (
-        <div className="absolute top-4 -right-2 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
-          <ChevronRight className="w-3 h-3 text-white" />
-        </div>
-      )}
-    </motion.div>
+        {/* Collapsed state tooltip indicator */}
+        {isCollapsed && (
+          <div className="hidden md:block absolute top-4 -right-2 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+            <ChevronRight className="w-3 h-3 text-white" />
+          </div>
+        )}
+      </motion.div>
+    </>
   );
 }

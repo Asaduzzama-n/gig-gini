@@ -1,5 +1,6 @@
 // app/page.tsx
 
+import { Footer } from "@/components/footer/Footer";
 import { BenefitsSection } from "@/components/home/BenifitsSection";
 import { CompetitionFlow } from "@/components/home/CompetetionFlow";
 import { Hero } from "@/components/home/Hero";
@@ -15,6 +16,7 @@ export default function HomePage() {
        <CompetitionFlow /> 
       <Roadmap />
       <UpcomingFeatures /> 
+      <Footer></Footer>
     </div>
   );
 }
