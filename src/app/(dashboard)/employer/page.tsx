@@ -158,7 +158,7 @@ function getRankBadgeColor(rank: number) {
   }
 }
 
-export default function EmployerDashboard() {
+function EmployerDashboardContent() {
   return (
     <div className="space-y-6">
       {/* Welcome Section */}
@@ -461,4 +461,8 @@ export default function EmployerDashboard() {
       </Card>
     </div>
   );
+}
+
+export default function EmployerDashboard() {
+  return <EmployerDashboardContent />;
 }
