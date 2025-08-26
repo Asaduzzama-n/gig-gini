@@ -40,20 +40,20 @@ interface SettingsData {
   security: SecuritySettings;
 }
 
-export default function AdminSettingsPage() {
+export default function EmployeeSettingsPage() {
   const [settingsData, setSettingsData] = useState<SettingsData>(mockSettingsData);
 
   const handleSave = (data: SettingsData) => {
     // In a real app, this would make an API call to save the data
     setSettingsData(data);
-    console.log('Saving admin settings data:', data);
+    console.log('Saving employee settings data:', data);
     // You could add a toast notification here
   };
 
   return (
     <div className="container mx-auto py-6">
       <SettingsComponent
-        userRole="admin"
+        userRole="employee"
         settingsData={settingsData}
         onSave={handleSave}
       />

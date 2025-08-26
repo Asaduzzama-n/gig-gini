@@ -10,7 +10,6 @@ import { Card } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import Link from 'next/link';
-import { Footer } from '@/components/footer/Footer';
 
 interface CompetitionRound {
   roundNumber: number;
@@ -451,7 +450,6 @@ export default function CompetitionDetailsPage() {
           </Tabs>
         </motion.div>
       </div>
-      <Footer></Footer>
     </div>
   );
 }

@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import {
@@ -55,6 +55,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
   
   // Mock auth state - replace with actual auth context
   const isAuthenticated = true; // This would come from your auth provider
@@ -200,11 +201,12 @@ export function Header() {
     </DropdownMenuLabel>
     <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-700" />
 
-    <DropdownMenuItem asChild className="hover:bg-gray-100 dark:hover:bg-gray-800">
-      <Link href="/profile" className="cursor-pointer flex items-center">
-        <User className="mr-2 h-4 w-4" />
-        <span>Profile</span>
-      </Link>
+    <DropdownMenuItem 
+      className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+      onClick={() => router.push(`/${user.role}/profile`)}
+    >
+      <User className="mr-2 h-4 w-4" />
+      <span>Profile</span>
     </DropdownMenuItem>
 
     {user.role === 'employer' && (
@@ -225,11 +227,12 @@ export function Header() {
       </DropdownMenuItem>
     )}
 
-    <DropdownMenuItem asChild className="hover:bg-gray-100 dark:hover:bg-gray-800">
-      <Link href="/settings" className="cursor-pointer flex items-center">
-        <Settings className="mr-2 h-4 w-4" />
-        <span>Settings</span>
-      </Link>
+    <DropdownMenuItem 
+      className="hover:bg-gray-100 dark:hover:bg-gray-800 cursor-pointer"
+      onClick={() => router.push(`/${user.role}/settings`)}
+    >
+      <Settings className="mr-2 h-4 w-4" />
+      <span>Settings</span>
     </DropdownMenuItem>
 
     <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-700" />

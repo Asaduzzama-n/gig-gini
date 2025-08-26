@@ -29,7 +29,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     const pathToTabMap: Record<string, string> = {
       'admin': 'overview',
       'employers': 'overview',
-      'profile': 'overview',
+      'employee': 'overview',
       'users': 'users',
       'competitions': 'competitions',
       'candidates': 'candidates',
@@ -38,6 +38,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       'billing': 'billing',
       'messages': 'messages',
       'settings': 'settings',
+      'profile': 'profile',
       'applications': 'applications',
       'achievements': 'achievements',
       'leaderboard': 'leaderboard',
@@ -72,6 +73,9 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     // Navigate to appropriate route
     if (tabId === 'overview') {
       router.push(basePath);
+    } else if (tabId === 'profile' || tabId === 'settings') {
+      // Handle role-specific routing for profile and settings
+      router.push(`/${userRole}/${tabId}`);
     } else {
       router.push(`${basePath}/${tabId}`);
     }

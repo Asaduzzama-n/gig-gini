@@ -203,7 +203,9 @@ export default function DashboardSidebar({
           return (
             <button
               key={item.id}
-              onClick={() => onTabChange(item.id)}
+              onClick={() => {
+                onTabChange(item.id);
+              }}
               className={cn(
                 "w-full flex items-center space-x-3 px-3 py-2.5 text-left rounded-lg transition-colors duration-150",
                 isActive
