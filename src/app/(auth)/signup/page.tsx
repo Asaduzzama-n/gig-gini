@@ -4,14 +4,17 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Eye, EyeOff, Mail, Lock, User, Building } from 'lucide-react';
+import { useAuthStore } from '@/stores/authStore';
 
 export default function SignupPage() {
   const [step, setStep] = useState(1);
-  const [userType, setUserType] = useState<'employee' | 'employer' | null>(null);
+  const [userType, setUserType] = useState<'employee' | 'employer' | 'admin' | null>(null);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -22,7 +25,10 @@ export default function SignupPage() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
+  
+  const { register, isLoading } = useAuthStore();
+  const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,17 +40,43 @@ export default function SignupPage() {
     }
 
     if (formData.password !== formData.confirmPassword) {
-      alert('Passwords do not match');
+      setError('Passwords do not match');
       return;
     }
 
-    setIsLoading(true);
+    if (!userType) {
+      setError('Please select a user type');
+      return;
+    }
+
+    setError('');
     
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    const result = await register({
+      email: formData.email,
+      password: formData.password,
+      name: formData.fullName,
+      role: userType,
+      companyName: userType === 'employer' ? formData.companyName : undefined
+    });
     
-    console.log('Signup attempt:', { userType, ...formData });
-    setIsLoading(false);
+    if (result.success) {
+      // Redirect based on user role
+      switch (userType) {
+        case 'admin':
+          router.push('/admin');
+          break;
+        case 'employer':
+          router.push('/employer');
+          break;
+        case 'employee':
+          router.push('/employee');
+          break;
+        default:
+          router.push('/');
+      }
+    } else {
+      setError(result.error || 'Registration failed');
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -290,6 +322,14 @@ export default function SignupPage() {
                 </label>
               </div>
 
+              {error && (
+                <Alert className="border-red-200 bg-red-50">
+                  <AlertDescription className="text-red-700">
+                    {error}
+                  </AlertDescription>
+                </Alert>
+              )}
+
               <Button
                 type="submit"
                 disabled={isLoading || !formData.agreeToTerms}
@@ -310,7 +350,7 @@ export default function SignupPage() {
           <p className="mt-8 text-center text-sm text-gray-600">
             Already have an account?{' '}
             <Link 
-              href="/auth/login" 
+              href="/login" 
               className="font-medium text-orange-600 hover:text-orange-700"
             >
               Sign in

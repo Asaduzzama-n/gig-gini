@@ -377,11 +377,11 @@ function CompetitionCard({ competition }: CompetitionCardProps) {
         </div>
 
         {/* Action Button */}
-        <Button 
+        <Button
           asChild
           className="w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
         >
-          <Link href={`/competitions/${competition.id}`}>
+          <Link href={`/browse-competitions/${competition.id}`}>
             View Details
           </Link>
         </Button>

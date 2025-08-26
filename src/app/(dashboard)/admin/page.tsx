@@ -9,11 +9,13 @@ import {
   Calendar, DollarSign, Award, Activity, ChevronRight
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { Input } from '@/components/ui/input';
-import { ProgressBar } from '@/components/ui/progress-bar';
+import { useAuthStore } from '@/stores/authStore';
+import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
+
 
 
 interface AdminStats {
@@ -152,7 +154,7 @@ const mockSubscriptions: Subscription[] = [
   }
 ];
 
-export default function AdminDashboard() {
+function AdminDashboardContent() {
   const [stats, setStats] = useState<AdminStats | null>(null);
   const [users, setUsers] = useState<User[]>([]);
   const [competitions, setCompetitions] = useState<Competition[]>([]);
@@ -160,6 +162,7 @@ export default function AdminDashboard() {
   const [isLoading, setIsLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('overview');
+  const { user } = useAuthStore();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -212,91 +215,75 @@ export default function AdminDashboard() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50 flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-orange-500"></div>
+      <div className="flex items-center justify-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-orange-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50">
+    <div className="space-y-6">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
-            <h1 className="text-3xl font-bold text-gray-900 mb-2">Admin Dashboard</h1>
-            <p className="text-gray-600">Manage users, competitions, and platform analytics</p>
-          </motion.div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+          <p className="text-gray-600 mt-1">Welcome back, {user?.name}</p>
         </div>
+        <Badge variant="outline" className="bg-red-100 text-red-700">Admin Panel</Badge>
       </div>
+      {/* Stats Overview */}
+      {stats && (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Users</CardTitle>
+              <Users className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalUsers.toLocaleString()}</div>
+              <p className="text-xs text-muted-foreground">
+                {stats.totalEmployees.toLocaleString()} employees, {stats.totalEmployers.toLocaleString()} employers
+              </p>
+            </CardContent>
+          </Card>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Stats Overview */}
-        {stats && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
-          >
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Users</p>
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalUsers.toLocaleString()}</p>
-                  <p className="text-sm text-gray-500">
-                    {stats.totalEmployees.toLocaleString()} employees, {stats.totalEmployers.toLocaleString()} employers
-                  </p>
-                </div>
-                <Users className="w-8 h-8 text-blue-500" />
-              </div>
-            </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Competitions</CardTitle>
+              <Trophy className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.totalCompetitions}</div>
+              <p className="text-xs text-muted-foreground">{stats.activeCompetitions} active</p>
+            </CardContent>
+          </Card>
 
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Competitions</p>
-                  <p className="text-3xl font-bold text-gray-900">{stats.totalCompetitions}</p>
-                  <p className="text-sm text-gray-500">{stats.activeCompetitions} active</p>
-                </div>
-                <Trophy className="w-8 h-8 text-orange-500" />
-              </div>
-            </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <DollarSign className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{formatCurrency(stats.totalRevenue)}</div>
+              <p className="text-xs text-muted-foreground">+{stats.monthlyGrowth}% this month</p>
+            </CardContent>
+          </Card>
 
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Revenue</p>
-                  <p className="text-3xl font-bold text-gray-900">{formatCurrency(stats.totalRevenue)}</p>
-                  <p className="text-sm text-green-600">+{stats.monthlyGrowth}% this month</p>
-                </div>
-                <DollarSign className="w-8 h-8 text-green-500" />
-              </div>
-            </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium">Growth Rate</CardTitle>
+              <TrendingUp className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{stats.monthlyGrowth}%</div>
+              <p className="text-xs text-muted-foreground">Monthly growth</p>
+            </CardContent>
+          </Card>
+        </div>
+      )}
 
-            <Card className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Growth Rate</p>
-                  <p className="text-3xl font-bold text-gray-900">{stats.monthlyGrowth}%</p>
-                  <p className="text-sm text-gray-500">Monthly growth</p>
-                </div>
-                <TrendingUp className="w-8 h-8 text-purple-500" />
-              </div>
-            </Card>
-          </motion.div>
-        )}
-
-        {/* Main Content */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-        >
+      {/* Main Content */}
+      <div>
           <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
             <TabsList className="grid w-full grid-cols-5">
               <TabsTrigger value="overview">Overview</TabsTrigger>
@@ -309,66 +296,75 @@ export default function AdminDashboard() {
             <TabsContent value="overview" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                 {/* Recent Activity */}
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                      <Activity className="w-5 h-5 text-blue-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">New user registration</p>
-                        <p className="text-xs text-gray-500">Alex Johnson joined as employee - 2 hours ago</p>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Recent Activity</CardTitle>
+                    <CardDescription>Latest system events and user activities</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">New user registration spike</p>
+                          <p className="text-xs text-muted-foreground">2 minutes ago</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">Competition "Frontend Challenge" launched</p>
+                          <p className="text-xs text-muted-foreground">15 minutes ago</p>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="w-2 h-2 bg-orange-500 rounded-full"></div>
+                        <div className="flex-1">
+                          <p className="text-sm font-medium">System maintenance completed</p>
+                          <p className="text-xs text-muted-foreground">1 hour ago</p>
+                        </div>
                       </div>
                     </div>
-                    <div className="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                      <Trophy className="w-5 h-5 text-green-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">Competition completed</p>
-                        <p className="text-xs text-gray-500">Marketing Campaign Contest ended - 5 hours ago</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center space-x-3 p-3 bg-orange-50 rounded-lg">
-                      <Building className="w-5 h-5 text-orange-500" />
-                      <div className="flex-1">
-                        <p className="text-sm font-medium">New employer subscription</p>
-                        <p className="text-xs text-gray-500">TechCorp upgraded to premium - 1 day ago</p>
-                      </div>
-                    </div>
-                  </div>
+                  </CardContent>
                 </Card>
 
                 {/* Platform Health */}
-                <Card className="p-6">
-                  <h3 className="text-lg font-semibold mb-4">Platform Health</h3>
-                  <div className="space-y-4">
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">User Engagement</span>
-                        <span className="text-sm text-green-600">92%</span>
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Platform Health</CardTitle>
+                    <CardDescription>System performance metrics</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">User Engagement</span>
+                          <span className="text-sm text-green-600">92%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-green-600 h-2 rounded-full" style={{ width: '92%' }}></div>
+                        </div>
                       </div>
-                      <ProgressBar value={92} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">Competition Success Rate</span>
-                        <span className="text-sm text-blue-600">87%</span>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">Competition Success Rate</span>
+                          <span className="text-sm text-blue-600">87%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-blue-600 h-2 rounded-full" style={{ width: '87%' }}></div>
+                        </div>
                       </div>
-                      <ProgressBar value={87} className="h-2" />
-                    </div>
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">Revenue Target</span>
-                        <span className="text-sm text-orange-600">76%</span>
+                      <div className="space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-medium">Revenue Target</span>
+                          <span className="text-sm text-orange-600">76%</span>
+                        </div>
+                        <div className="w-full bg-gray-200 rounded-full h-2">
+                          <div className="bg-orange-600 h-2 rounded-full" style={{ width: '76%' }}></div>
+                        </div>
                       </div>
-                      <ProgressBar value={76} className="h-2" />
                     </div>
-                    <div>
-                      <div className="flex items-center justify-between mb-2">
-                        <span className="text-sm font-medium">Customer Satisfaction</span>
-                        <span className="text-sm text-purple-600">95%</span>
-                      </div>
-                      <ProgressBar value={95} className="h-2" />
-                    </div>
-                  </div>
+                  </CardContent>
                 </Card>
               </div>
             </TabsContent>
@@ -606,8 +602,15 @@ export default function AdminDashboard() {
               </div>
             </TabsContent>
           </Tabs>
-        </motion.div>
-      </div>
+        </div>
     </div>
+  );
+}
+
+export default function AdminDashboard() {
+  return (
+    <ProtectedRoute allowedRoles={['admin']}>
+      <AdminDashboardContent />
+    </ProtectedRoute>
   );
 }

@@ -204,3 +204,63 @@ interface UserProfile {
 }
 ```
 
+🔹 Dashboard Flows (Role-Based)
+Employee Dashboard
+
+Overview → All competitions they are following/participated + general stats.
+
+My Competitions → List of competitions participated, with stats + “Continue” button.
+
+Applications → Upcoming feature (currently no implementation).
+
+Achievements → Holds achievements (currently only competitions).
+
+Interviews → Locked (upcoming).
+
+Messages → Same as interview (upcoming).
+
+Profile → View & edit profile.
+
+Settings → Change password, delete account, etc.
+
+Employer Dashboard
+
+Overview → Competition stats + engagement (reaches, follows, etc.).
+
+My Competitions → All competitions created, with stats + “Continue” button.
+
+Candidates → Employees who have won prizes in competitions.
+
+Achievements → Employee achievements related to competitions.
+
+Interviews → Competition-related interview section.
+
+Analytics → Competition insights and reports.
+
+Billing → Upcoming feature.
+
+Messages → Same as interview (upcoming).
+
+Profile → View & edit profile.
+
+Settings → Change password, delete account, etc.
+
+Admin Dashboard
+
+Overview → Competition stats + engagement insights.
+
+Users → Manage all users (block/unblock, details view).
+
+Competitions → Admin can view/create competitions (like employer).
+
+Subscriptions → Create/manage subscription plans.
+
+Analytics → System-wide insights.
+
+Reports → Upcoming feature.
+
+Content Management → Homepage/competition content.
+
+Notifications → Create/manage system notifications.
+
+Settings → Change password, delete account, etc.
