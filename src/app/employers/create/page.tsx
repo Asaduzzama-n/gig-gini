@@ -196,7 +196,7 @@ export default function CreateCompetitionPage() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Location
@@ -213,10 +213,10 @@ export default function CreateCompetitionPage() {
                 Registration Fee
               </label>
               <Select value={form.registrationFee} onValueChange={(value) => handleInputChange('registrationFee', value)}>
-                <SelectTrigger>
+                <SelectTrigger className='h-10! w-full'>
                   <SelectValue />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className='bg-white'>
                   <SelectItem value="Free">Free</SelectItem>
                   <SelectItem value="$25">$25</SelectItem>
                   <SelectItem value="$50">$50</SelectItem>
@@ -441,7 +441,7 @@ export default function CreateCompetitionPage() {
   );
 
   const renderStep4 = () => (
-    <div className="space-y-6">
+    <div className="space-y-6 ">
       <Card className="p-6">
         <h2 className="text-xl font-semibold mb-4">Terms & Conditions</h2>
         
@@ -547,9 +547,9 @@ export default function CreateCompetitionPage() {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-orange-50">
+    <div className="min-h-screen bg-gray-50 pb-10">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b">
+      <div className="  ">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <Button variant="ghost" asChild className="mb-4">
             <Link href="/employers/dashboard">
@@ -569,7 +569,7 @@ export default function CreateCompetitionPage() {
         </div>
       </div>
 
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 bg-white rounded-xl p-10">
         {/* Progress Indicator */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -626,7 +626,7 @@ export default function CreateCompetitionPage() {
           </motion.div>
 
           {/* Navigation */}
-          <div className="flex items-center justify-between mt-8 pt-6 border-t">
+          <div className="flex items-center justify-between mt-8 pt-6 ">
             <Button
               type="button"
               variant="outline"
