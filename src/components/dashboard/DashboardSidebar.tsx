@@ -250,7 +250,7 @@ export default function DashboardSidebar({
 
         {/* Collapsed state tooltip indicator */}
         {isCollapsed && (
-          <div className="hidden md:block absolute top-4 -right-2 w-4 h-4 bg-orange-500 rounded-full flex items-center justify-center">
+          <div className="hidden md:block absolute top-4 -right-2 w-4 h-4 bg-orange-500 rounded-full items-center justify-center">
             <ChevronRight className="w-3 h-3 text-white" />
           </div>
         )}

@@ -2,8 +2,10 @@
 import React from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { SidebarProvider, useSidebar } from "@/contexts/SidebarContext";
+import { useAuthStore } from "@/stores/authStore";
+import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 
 
 function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
@@ -11,65 +13,63 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('overview');
   const { isCollapsed } = useSidebar();
+  const { user } = useAuthStore();
 
-  // Determine user role based on the current path
-  const getUserRole = (): 'admin' | 'employer' | 'employee' => {
+  // Memoize user role based on the current path
+  const userRole = useMemo((): 'admin' | 'employer' | 'employee' => {
     if (pathname.startsWith('/admin')) return 'admin';
-    if (pathname.startsWith('/employers')) return 'employer';
-    if (pathname.startsWith('/profile')) return 'employee';
+    if (pathname.startsWith('/employer')) return 'employer';
+    if (pathname.startsWith('/employee')) return 'employee';
     return 'employee'; // default fallback
-  };
+  }, [pathname]);
+
+  // Memoize path to tab mapping
+  const pathToTabMap = useMemo((): Record<string, string> => ({
+    'admin': 'overview',
+    'employer': 'overview',
+    'employee': 'overview',
+    'users': 'users',
+    'competitions': 'competitions',
+    'candidates': 'candidates',
+    'interviews': 'interviews',
+    'analytics': 'analytics',
+    'billing': 'billing',
+    'messages': 'messages',
+    'settings': 'settings',
+    'profile': 'profile',
+    'applications': 'applications',
+    'achievements': 'achievements',
+    'leaderboard': 'leaderboard',
+    'subscriptions': 'subscriptions',
+    'reports': 'reports',
+    'content': 'content',
+    'notifications': 'notifications'
+  }), []);
 
   // Update active tab based on current pathname
   React.useEffect(() => {
     const pathSegments = pathname.split('/').filter(Boolean);
     const lastSegment = pathSegments[pathSegments.length - 1];
-
-    // Map pathname to tab IDs
-    const pathToTabMap: Record<string, string> = {
-      'admin': 'overview',
-      'employers': 'overview',
-      'employee': 'overview',
-      'users': 'users',
-      'competitions': 'competitions',
-      'candidates': 'candidates',
-      'interviews': 'interviews',
-      'analytics': 'analytics',
-      'billing': 'billing',
-      'messages': 'messages',
-      'settings': 'settings',
-      'profile': 'profile',
-      'applications': 'applications',
-      'achievements': 'achievements',
-      'leaderboard': 'leaderboard',
-      'subscriptions': 'subscriptions',
-      'reports': 'reports',
-      'content': 'content',
-      'notifications': 'notifications'
-    };
-
     const newActiveTab = pathToTabMap[lastSegment] || 'overview';
     setActiveTab(newActiveTab);
-  }, [pathname]);
+  }, [pathname, pathToTabMap]);
+
+  // Memoize base path based on user role
+  const basePath = useMemo(() => {
+    switch (userRole) {
+      case 'admin':
+        return '/admin';
+      case 'employer':
+        return '/employer';
+      case 'employee':
+        return '/employee';
+      default:
+        return '/employee';
+    }
+  }, [userRole]);
 
   // Handle tab change with navigation
   const handleTabChange = (tabId: string) => {
-    const userRole = getUserRole();
-    let basePath = '';
-
-    // Determine base path based on user role
-    switch (userRole) {
-      case 'admin':
-        basePath = '/admin';
-        break;
-      case 'employer':
-        basePath = '/employers';
-        break;
-      case 'employee':
-        basePath = '/employee';
-        break;
-    }
-
     // Navigate to appropriate route
     if (tabId === 'overview') {
       router.push(basePath);
@@ -85,10 +85,11 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
     <div className="flex min-h-screen bg-gray-50">
       {/* Sidebar */}
       <DashboardSidebar
-        userRole={getUserRole()}
+        userRole={userRole}
         activeTab={activeTab}
         onTabChange={handleTabChange}
-        userName="User"
+        userName={user?.name || "User"}
+        userAvatar={user?.avatar}
       />
 
       {/* Main Content Area */}
@@ -124,8 +125,10 @@ export default function DashboardLayoutWrapper({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider>
-      <DashboardLayoutContent>{children}</DashboardLayoutContent>
-    </SidebarProvider>
+    <ProtectedRoute>
+      <SidebarProvider>
+        <DashboardLayoutContent>{children}</DashboardLayoutContent>
+      </SidebarProvider>
+    </ProtectedRoute>
   );
 }

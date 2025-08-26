@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -101,6 +101,37 @@ export default function SettingsComponent({ userRole, settingsData, onSave }: Se
   const [settings, setSettings] = useState<SettingsData>(settingsData);
   const [hasChanges, setHasChanges] = useState(false);
 
+  // Memoize role-specific settings
+  const roleSpecificSettings = useMemo(() => {
+    switch (userRole) {
+      case 'admin':
+        return [
+          { key: 'systemMaintenance', label: 'System Maintenance Mode', type: 'boolean' },
+          { key: 'userRegistration', label: 'Allow User Registration', type: 'boolean' },
+          { key: 'dataRetention', label: 'Data Retention (days)', type: 'number' }
+        ];
+      case 'employer':
+        return [
+          { key: 'autoApproval', label: 'Auto-approve Applications', type: 'boolean' },
+          { key: 'candidateNotifications', label: 'Candidate Notifications', type: 'boolean' },
+          { key: 'jobPostingLimit', label: 'Job Posting Limit', type: 'number' }
+        ];
+      case 'employee':
+        return [
+          { key: 'profileVisibility', label: 'Profile Visibility', type: 'select', options: ['Public', 'Private', 'Employers Only'] },
+          { key: 'jobAlerts', label: 'Job Alerts', type: 'boolean' },
+          { key: 'skillAssessments', label: 'Skill Assessment Reminders', type: 'boolean' }
+        ];
+      default:
+        return [];
+    }
+  }, [userRole]);
+
+  // Memoize if there are unsaved changes
+  const hasUnsavedChanges = useMemo(() => {
+    return JSON.stringify(settings) !== JSON.stringify(settingsData);
+  }, [settings, settingsData]);
+
   const updateSettings = (section: keyof SettingsData, key: string, value: any) => {
     setSettings(prev => ({
       ...prev,
@@ -146,10 +177,10 @@ export default function SettingsComponent({ userRole, settingsData, onSave }: Se
               Reset
             </Button>
           )}
-          <Button onClick={handleSave} disabled={!hasChanges}>
-            <Save className="h-4 w-4 mr-2" />
-            Save Changes
-          </Button>
+          <Button onClick={handleSave} disabled={!hasUnsavedChanges}>
+              <Save className="h-4 w-4 mr-2" />
+              Save All Changes
+            </Button>
         </div>
       </div>
 

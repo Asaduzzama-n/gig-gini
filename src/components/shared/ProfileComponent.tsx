@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -106,6 +106,36 @@ export default function ProfileComponent({ userRole, profileData, onSave }: Prof
   const [editData, setEditData] = useState(profileData);
   const [newSkill, setNewSkill] = useState('');
 
+  // Memoize role-specific fields
+  const roleSpecificFields = useMemo(() => {
+    switch (userRole) {
+      case 'employer':
+        return [
+          { key: 'company', label: 'Company', type: 'text' },
+          { key: 'industry', label: 'Industry', type: 'text' },
+          { key: 'companySize', label: 'Company Size', type: 'text' }
+        ];
+      case 'employee':
+        return [
+          { key: 'skills', label: 'Skills', type: 'text' },
+          { key: 'experience', label: 'Experience', type: 'text' },
+          { key: 'portfolio', label: 'Portfolio URL', type: 'url' }
+        ];
+      case 'admin':
+        return [
+          { key: 'permissions', label: 'Permissions', type: 'text' },
+          { key: 'department', label: 'Department', type: 'text' }
+        ];
+      default:
+        return [];
+    }
+  }, [userRole]);
+
+  // Memoize form validation
+  const isFormValid = useMemo(() => {
+    return editData.name.trim() !== '' && editData.email.trim() !== '';
+  }, [editData.name, editData.email]);
+
   const handleSave = () => {
     onSave(editData);
     setIsEditing(false);
@@ -158,7 +188,7 @@ export default function ProfileComponent({ userRole, profileData, onSave }: Prof
                 <X className="h-4 w-4 mr-2" />
                 Cancel
               </Button>
-              <Button onClick={handleSave}>
+              <Button onClick={handleSave} disabled={!isFormValid}>
                 <Save className="h-4 w-4 mr-2" />
                 Save Changes
               </Button>
