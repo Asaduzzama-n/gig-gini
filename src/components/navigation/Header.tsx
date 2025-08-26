@@ -39,7 +39,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 const navItems = [
   { href: '/', label: 'Home' },
-  { href: '/competitions', label: 'Competitions' },
+  { href: '/browse-competitions', label: 'Competitions' },
   { href: '/leaderboards', label: 'Leaderboards' },
 ];
 

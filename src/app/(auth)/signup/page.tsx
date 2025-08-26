@@ -14,7 +14,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 export default function SignupPage() {
   const [step, setStep] = useState(1);
-  const [userType, setUserType] = useState<'employee' | 'employer' | null>(null);
+  const [userType, setUserType] = useState<'employee' | 'employer' | 'admin' | null>(null);
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
