@@ -194,10 +194,16 @@ export default function ProfileComponent({ userRole, profileData, onSave }: Prof
               </Button>
             </>
           ) : (
-            <Button onClick={() => setIsEditing(true)}>
-              <Edit className="h-4 w-4 mr-2" />
-              Edit Profile
-            </Button>
+            <>
+              <Button variant="outline" onClick={() => window.dispatchEvent(new CustomEvent('triggerProfileCompletion'))}>
+                <User className="h-4 w-4 mr-2" />
+                Complete Profile
+              </Button>
+              <Button onClick={() => setIsEditing(true)}>
+                <Edit className="h-4 w-4 mr-2" />
+                Edit Profile
+              </Button>
+            </>
           )}
         </div>
       </div>

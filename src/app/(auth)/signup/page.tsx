@@ -60,20 +60,8 @@ export default function SignupPage() {
     });
     
     if (result.success) {
-      // Redirect based on user role
-      switch (userType) {
-        case 'admin':
-          router.push('/admin');
-          break;
-        case 'employer':
-          router.push('/employer');
-          break;
-        case 'employee':
-          router.push('/employee');
-          break;
-        default:
-          router.push('/');
-      }
+      // Redirect to email verification page
+      router.push('/verify-email');
     } else {
       setError(result.error || 'Registration failed');
     }

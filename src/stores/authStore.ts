@@ -9,6 +9,8 @@ export interface User {
   avatar?: string;
   company?: string;
   title?: string;
+  isEmailVerified?: boolean;
+  isProfileComplete?: boolean;
 }
 
 interface RegisterData {
@@ -23,10 +25,12 @@ interface AuthState {
   user: User | null;
   isAuthenticated: boolean;
   isLoading: boolean;
+  pendingEmailVerification: boolean;
   login: (email: string, password: string) => Promise<{ success: boolean; error?: string }>;
   register: (data: RegisterData) => Promise<{ success: boolean; error?: string }>;
   logout: () => void;
   setLoading: (loading: boolean) => void;
+  updateUserVerificationStatus: (isEmailVerified: boolean, isProfileComplete?: boolean) => void;
 }
 
 // Dummy user credentials for testing
@@ -77,6 +81,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       isAuthenticated: false,
       isLoading: false,
+      pendingEmailVerification: false,
 
       login: async (email: string, password: string) => {
         set({ isLoading: true });
@@ -126,7 +131,9 @@ export const useAuthStore = create<AuthState>()(
           role: data.role,
           company: data.companyName,
           title: data.role === 'admin' ? 'Administrator' : 
-                 data.role === 'employer' ? 'Recruiter' : 'Job Seeker'
+                 data.role === 'employer' ? 'Recruiter' : 'Job Seeker',
+          isEmailVerified: false,
+          isProfileComplete: false
         };
         
         // Add to dummy users (in real app, this would be an API call)
@@ -135,7 +142,8 @@ export const useAuthStore = create<AuthState>()(
         set({ 
           user: newUser, 
           isAuthenticated: true, 
-          isLoading: false 
+          isLoading: false,
+          pendingEmailVerification: true
         });
         
         return { success: true };
@@ -145,19 +153,37 @@ export const useAuthStore = create<AuthState>()(
         set({ 
           user: null, 
           isAuthenticated: false, 
-          isLoading: false 
+          isLoading: false,
+          pendingEmailVerification: false
         });
       },
 
       setLoading: (loading: boolean) => {
         set({ isLoading: loading });
+      },
+
+      updateUserVerificationStatus: (isEmailVerified: boolean, isProfileComplete?: boolean) => {
+        const currentState = get();
+        if (currentState.user) {
+          const updatedUser = {
+            ...currentState.user,
+            isEmailVerified,
+            ...(isProfileComplete !== undefined && { isProfileComplete })
+          };
+          
+          set({
+            user: updatedUser,
+            pendingEmailVerification: !isEmailVerified
+          });
+        }
       }
     }),
     {
       name: 'auth-storage',
       partialize: (state) => ({ 
         user: state.user, 
-        isAuthenticated: state.isAuthenticated 
+        isAuthenticated: state.isAuthenticated,
+        pendingEmailVerification: state.pendingEmailVerification
       }),
     }
   )

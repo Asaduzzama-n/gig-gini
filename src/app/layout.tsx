@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NotificationProvider } from "@/providers/NotificationProvider";
 import { Header } from "@/components/navigation/Header";
+import { OnboardingProvider } from "@/components/onboarding/OnboardingProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -69,11 +70,13 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
 
   return (
     <NotificationProvider>
-      <Header />
-      <main className="min-h-screen">
-        {children}
-      </main>
-      {/* <Footer /> */}
+      <OnboardingProvider>
+        <Header />
+        <main className="min-h-screen">
+          {children}
+        </main>
+        {/* <Footer /> */}
+      </OnboardingProvider>
     </NotificationProvider>
   );
 }

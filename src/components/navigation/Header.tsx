@@ -130,7 +130,7 @@ export function Header() {
             <div className="hidden md:flex items-center space-x-3">
               {/* Quick Action Buttons */}
               {user?.role === 'employee' && (
-                <Link href="/competitions">
+                <Link href="/browse-competitions">
                   <Button variant="outline" size="sm" className="flex items-center space-x-2">
                     <Trophy className="h-4 w-4" />
                     <span>Join Competition</span>
@@ -139,7 +139,7 @@ export function Header() {
               )}
 
               {user?.role === 'employer' && (
-                <Link href="/employer/competitions">
+                <Link href="/employer/competitions/create">
                   <Button className="btn-primary" size="sm">
                     <Plus className="h-4 w-4 mr-2" />
                     Create Competition

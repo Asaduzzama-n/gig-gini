@@ -3,10 +3,15 @@ import type { NextRequest } from 'next/server';
 
 // Define protected routes
 const protectedRoutes = ['/admin', '/employer', '/employee', '/profile', '/settings', '/achievements'];
-const authRoutes = ['/login', '/signup'];
+const authRoutes = ['/login', '/signup', '/verify-email'];
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  
+  // Allow direct access to /verify-email (handled by (auth) route group)
+  if (pathname === '/verify-email') {
+    return NextResponse.next();
+  }
   
   // Skip middleware for auth pages and let client-side handle redirects
   // This is because Zustand persists to localStorage which is not available server-side
