@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { CompetitionJourney } from '@/components/competitions/CompetitionJourney';
 
 export const metadata: Metadata = {
-  title: 'Competition Journey - Employee Dashboard | GiG Gini',
+  title: 'Competition Journey - Employee Dashboard | GiG Geni',
   description: 'Track your progress through the competition rounds and complete challenges to advance.',
   keywords: 'competition journey, rounds, progress, challenges, employee dashboard',
 };

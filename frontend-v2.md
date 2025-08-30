@@ -3,7 +3,7 @@ You don’t need the low-level implementation details right now — instead you 
 
 ---
 
-# 🔹 GiG Gini – Frontend Development Flow (UX-First)
+# 🔹 GiG Geni – Frontend Development Flow (UX-First)
 
 ## 1. Global Navigation & Access Rules
 

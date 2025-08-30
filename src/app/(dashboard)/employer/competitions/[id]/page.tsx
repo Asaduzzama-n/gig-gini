@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { CompetitionDetailPage } from '@/components/employers/CompetitionDetailPage';
 
 export const metadata: Metadata = {
-  title: 'Competition Details - Employer Dashboard | GiG Gini',
+  title: 'Competition Details - Employer Dashboard | GiG Geni',
   description: 'View and manage your competition details, applications, and candidate progress.',
   keywords: 'competition details, manage competition, candidate applications, employer dashboard',
 };

@@ -52,16 +52,16 @@ src/app/(dashboard)/
 All accounts use password: `password123`
 
 ### **Admin Account**
-- **Email**: `admin@giggini.com`
+- **Email**: `admin@gigGeni.com`
 - **Access**: Full admin dashboard with user management, analytics, and system controls
 
 ### **Employer Accounts**
-- **Primary**: `employer@giggini.com` - TechCorp Solutions
+- **Primary**: `employer@gigGeni.com` - TechCorp Solutions
 - **Secondary**: `hr@techcorp.com` - TechCorp Inc
 - **Access**: Employer dashboard with competition management, candidate tracking, and hiring analytics
 
 ### **Employee Accounts**
-- **Primary**: `employee@giggini.com` - Sarah Johnson (Frontend Developer)
+- **Primary**: `employee@gigGeni.com` - Sarah Johnson (Frontend Developer)
 - **Secondary**: `dev@example.com` - Alex Rodriguez (Full Stack Developer)
 - **Access**: Employee dashboard with competitions, applications, achievements, and leaderboard
 
@@ -78,7 +78,7 @@ All accounts use password: `password123`
 ### **Method 2: Manual Login**
 1. Navigate to `/login`
 2. Enter credentials manually:
-   - Email: `admin@giggini.com` (or any other demo account)
+   - Email: `admin@gigGeni.com` (or any other demo account)
    - Password: `password123`
 3. Click "Sign In"
 4. Automatic redirect based on user role

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Achievements - Employee Dashboard | GiG Gini',
-  description: 'View your achievements, badges, and accomplishments earned through competitions on the GiG Gini platform.',
+  title: 'Achievements - Employee Dashboard | GiG Geni',
+  description: 'View your achievements, badges, and accomplishments earned through competitions on the GiG Geni platform.',
   keywords: 'achievements, badges, accomplishments, employee dashboard, competition rewards, skill recognition',
 };
 

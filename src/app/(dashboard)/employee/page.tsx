@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'My Dashboard | GiG Gini',
-  description: 'View your competitions, applications, achievements, and leaderboard ranking on the GiG Gini platform.',
+  title: 'My Dashboard | GiG Geni',
+  description: 'View your competitions, applications, achievements, and leaderboard ranking on the GiG Geni platform.',
   keywords: 'employee dashboard, my competitions, applications, achievements, leaderboard, profile',
 };
 

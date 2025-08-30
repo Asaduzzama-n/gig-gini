@@ -91,7 +91,7 @@ export default function SignupPage() {
           >
             <span className="text-white font-bold text-xl">GG</span>
           </motion.div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">Join GiG Gini</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Join GiG Geni</h1>
           <p className="text-gray-600">
             {step === 1 ? 'Choose your account type' : 'Create your account'}
           </p>

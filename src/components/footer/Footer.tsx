@@ -32,9 +32,9 @@ const footerLinks = {
     { label: 'Career Resources', href: '/resources' },
   ],
   forEmployers: [
-    { label: 'Post a Competition', href: '/employers/create' },
+    { label: 'Post a Competition', href: '/employer/create' },
     { label: 'Pricing', href: '/pricing' },
-    { label: 'Employer Dashboard', href: '/employers/dashboard' },
+    { label: 'Employer Dashboard', href: '/employer/dashboard' },
     { label: 'Hiring Guide', href: '/hiring-guide' },
   ],
   support: [
@@ -46,10 +46,10 @@ const footerLinks = {
 };
 
 const socialLinks = [
-  { icon: Facebook, href: 'https://facebook.com/giggini', label: 'Facebook' },
-  { icon: Twitter, href: 'https://twitter.com/giggini', label: 'Twitter' },
-  { icon: Linkedin, href: 'https://linkedin.com/company/giggini', label: 'LinkedIn' },
-  { icon: Instagram, href: 'https://instagram.com/giggini', label: 'Instagram' },
+  { icon: Facebook, href: 'https://facebook.com/gigGeni', label: 'Facebook' },
+  { icon: Twitter, href: 'https://twitter.com/gigGeni', label: 'Twitter' },
+  { icon: Linkedin, href: 'https://linkedin.com/company/gigGeni', label: 'LinkedIn' },
+  { icon: Instagram, href: 'https://instagram.com/gigGeni', label: 'Instagram' },
 ];
 
 export function Footer() {
@@ -75,7 +75,7 @@ export function Footer() {
             className="max-w-4xl mx-auto text-center"
           >
             <h3 className="text-3xl font-bold mb-4">
-              Stay Updated with <span className="gradient-text">GiG Gini</span>
+              Stay Updated with <span className="gradient-text">GiG Geni</span>
             </h3>
             <p className="text-gray-400 mb-8 text-lg">
               Get the latest competitions, career tips, and platform updates delivered to your inbox.
@@ -119,7 +119,7 @@ export function Footer() {
                 <div className="h-10 w-10 rounded-lg bg-[#FC5602] flex items-center justify-center">
                   <span className="text-white font-bold text-xl">G</span>
                 </div>
-                <span className="text-2xl font-bold gradient-text">GiG Gini</span>
+                <span className="text-2xl font-bold gradient-text">GiG Geni</span>
               </div>
               
               <p className="text-gray-400 leading-relaxed">
@@ -138,7 +138,7 @@ export function Footer() {
                 </div>
                 <div className="flex items-center space-x-3 text-sm text-gray-400">
                   <Mail className="h-4 w-4 text-[#FC5602]" />
-                  <span>hello@giggini.com</span>
+                  <span>hello@gigGeni.com</span>
                 </div>
               </div>
 
@@ -266,7 +266,7 @@ export function Footer() {
           className="flex flex-col md:flex-row items-center justify-between space-y-4 md:space-y-0"
         >
           <div className="text-gray-400 text-sm">
-            © {new Date().getFullYear()} GiG Gini. All rights reserved.
+            © {new Date().getFullYear()} GiG Geni. All rights reserved.
           </div>
           
           <div className="flex items-center space-x-1 text-gray-400 text-sm">

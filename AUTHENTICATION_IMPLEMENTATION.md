@@ -31,16 +31,16 @@ I've successfully integrated a comprehensive authentication system with the exis
 All accounts use password: `password123`
 
 **Admin Account:**
-- Email: `admin@giggini.com`
+- Email: `admin@gigGeni.com`
 - Access: Full admin dashboard with user management and system controls
 
 **Employer Accounts:**
-- `employer@giggini.com` - Main employer account
+- `employer@gigGeni.com` - Main employer account
 - `hr@techcorp.com` - TechCorp HR Manager
 - Access: Employer dashboard with competition management and candidate tracking
 
 **Employee Accounts:**
-- `employee@giggini.com` - Main employee account  
+- `employee@gigGeni.com` - Main employee account  
 - `dev@example.com` - Full Stack Developer
 - Access: Employee dashboard with competitions, applications, and achievements
 

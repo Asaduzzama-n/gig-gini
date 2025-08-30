@@ -1,22 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { CategoryFilter } from '@/components/shared/CategoryFilter';
 import {
   Trophy,
   Medal,
   Award,
   TrendingUp,
-  Users,
-  Target,
-  Calendar,
-  Filter,
   Crown,
   Star,
   Zap
@@ -91,13 +87,50 @@ const mockLeaderboardData = [
   }
 ];
 
-const categories = ['All', 'IT', 'Design', 'Marketing', 'Sales', 'Business'];
-const timeRanges = ['All Time', '30 Days', '90 Days', 'This Year'];
+const categories = ['IT', 'Design', 'Marketing', 'Sales', 'Business'];
 
 export function LeaderboardPage() {
-  const [selectedCategory, setSelectedCategory] = useState('All');
-  const [selectedTimeRange, setSelectedTimeRange] = useState('All Time');
-  const [activeTab, setActiveTab] = useState('overall');
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+
+  // Initialize categories from URL
+  useEffect(() => {
+    const categoriesParam = searchParams.get('categories');
+    if (categoriesParam) {
+      setSelectedCategories(categoriesParam.split(',').filter(Boolean));
+    }
+  }, [searchParams]);
+
+  // Update URL when categories change
+  useEffect(() => {
+    const params = new URLSearchParams(searchParams.toString());
+    
+    if (selectedCategories.length > 0) {
+      params.set('categories', selectedCategories.join(','));
+    } else {
+      params.delete('categories');
+    }
+    
+    router.push(`?${params.toString()}`, { scroll: false });
+  }, [selectedCategories.join(','), router, searchParams]);
+
+  const toggleCategory = (category: string) => {
+    setSelectedCategories(prev => 
+      prev.includes(category)
+        ? prev.filter(c => c !== category)
+        : [...prev, category]
+    );
+  };
+
+  const clearAllCategories = () => {
+    setSelectedCategories([]);
+  };
+
+  // Filter leaderboard data based on selected categories
+  const filteredData = selectedCategories.length > 0
+    ? mockLeaderboardData.filter(user => selectedCategories.includes(user.category))
+    : mockLeaderboardData;
 
   const getRankIcon = (rank: number) => {
     switch (rank) {
@@ -136,234 +169,108 @@ export function LeaderboardPage() {
           </p>
         </motion.div>
 
-        {/* Stats Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8"
-        >
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Participants</p>
-                  <p className="text-3xl font-bold text-gray-900">10,247</p>
-                </div>
-                <Users className="h-8 w-8 text-[#FC5602]" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Active Competitions</p>
-                  <p className="text-3xl font-bold text-gray-900">127</p>
-                </div>
-                <Target className="h-8 w-8 text-blue-500" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Total Prizes</p>
-                  <p className="text-3xl font-bold text-gray-900">$2.4M</p>
-                </div>
-                <Award className="h-8 w-8 text-green-500" />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardContent className="p-6">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm font-medium text-gray-600">Success Rate</p>
-                  <p className="text-3xl font-bold text-gray-900">92%</p>
-                </div>
-                <TrendingUp className="h-8 w-8 text-purple-500" />
-              </div>
-            </CardContent>
-          </Card>
-        </motion.div>
-
-        {/* Filters */}
+        {/* Category Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="flex flex-col sm:flex-row gap-4 mb-8"
+          className="mb-8"
         >
-          <div className="flex items-center space-x-2">
-            <Filter className="h-5 w-5 text-gray-500" />
-            <span className="text-sm font-medium text-gray-700">Filter by:</span>
-          </div>
-          
-          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Category" />
-            </SelectTrigger>
-            <SelectContent>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-
-          <Select value={selectedTimeRange} onValueChange={setSelectedTimeRange}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Time Range" />
-            </SelectTrigger>
-            <SelectContent>
-              {timeRanges.map((range) => (
-                <SelectItem key={range} value={range}>
-                  {range}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <CategoryFilter
+            categories={categories}
+            selectedCategories={selectedCategories}
+            onToggleCategory={toggleCategory}
+            onClearAll={clearAllCategories}
+            resultCount={filteredData.length}
+            showResultCount={true}
+          />
         </motion.div>
 
-        {/* Leaderboard Tabs */}
+        {/* Leaderboard Cards */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
         >
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="overall">Overall Rankings</TabsTrigger>
-              <TabsTrigger value="monthly">Monthly Leaders</TabsTrigger>
-              <TabsTrigger value="categories">By Category</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="overall" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Trophy className="h-5 w-5 text-[#FC5602]" />
-                    <span>Top Performers - All Time</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {mockLeaderboardData.map((user, index) => (
-                      <motion.div
-                        key={user.id}
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: index * 0.1 }}
-                        className={`flex items-center justify-between p-4 rounded-lg border transition-colors hover:bg-gray-50 ${
-                          user.rank <= 3 ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200' : 'bg-white'
-                        }`}
-                      >
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center justify-center w-12 h-12">
-                            {getRankIcon(user.rank)}
-                          </div>
-                          
-                          <Avatar className="h-12 w-12">
-                            <AvatarImage src={user.avatar} alt={user.name} />
-                            <AvatarFallback className="bg-[#FC5602] text-white">
-                              {user.name.split(' ').map(n => n[0]).join('')}
-                            </AvatarFallback>
-                          </Avatar>
-                          
-                          <div>
-                            <div className="flex items-center space-x-2">
-                              <h3 className="font-semibold text-gray-900">{user.name}</h3>
-                              {user.rank <= 3 && <Star className="h-4 w-4 text-yellow-500" />}
-                            </div>
-                            <p className="text-sm text-gray-600">{user.role}</p>
-                            <div className="flex items-center space-x-2 mt-1">
-                              {user.achievements.slice(0, 2).map((achievement) => (
-                                <Badge key={achievement} variant="secondary" className="text-xs">
-                                  {achievement}
-                                </Badge>
-                              ))}
-                            </div>
-                          </div>
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <Trophy className="h-5 w-5 text-[#FC5602]" />
+                <span>Top Performers</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {filteredData.length > 0 ? (
+                  filteredData.map((user, index) => (
+                    <motion.div
+                      key={user.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: index * 0.1 }}
+                      className={`flex items-center justify-between p-4 rounded-lg border transition-colors hover:bg-gray-50 ${
+                        user.rank <= 3 ? 'bg-gradient-to-r from-yellow-50 to-orange-50 border-yellow-200' : 'bg-white'
+                      }`}
+                    >
+                      <div className="flex items-center space-x-4">
+                        <div className="flex items-center justify-center w-12 h-12">
+                          {getRankIcon(user.rank)}
                         </div>
                         
-                        <div className="text-right">
-                          <div className="flex items-center space-x-2 mb-1">
-                            <Zap className="h-4 w-4 text-[#FC5602]" />
-                            <span className="text-lg font-bold text-gray-900">{user.totalPoints.toLocaleString()}</span>
-                            {getRankChangeIcon(user.rankChange)}
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage src={user.avatar} alt={user.name} />
+                          <AvatarFallback className="bg-[#FC5602] text-white">
+                            {user.name.split(' ').map(n => n[0]).join('')}
+                          </AvatarFallback>
+                        </Avatar>
+                        
+                        <div>
+                          <div className="flex items-center space-x-2">
+                            <h3 className="font-semibold text-gray-900">{user.name}</h3>
+                            {user.rank <= 3 && <Star className="h-4 w-4 text-yellow-500" />}
                           </div>
-                          <p className="text-sm text-gray-600">
-                            {user.competitionsWon}/{user.competitionsParticipated} wins
-                          </p>
-                          <Badge variant="outline" className="text-xs mt-1">
-                            {user.category}
-                          </Badge>
+                          <p className="text-sm text-gray-600">{user.role}</p>
+                          <div className="flex items-center space-x-2 mt-1">
+                            {user.achievements.slice(0, 2).map((achievement) => (
+                              <Badge key={achievement} variant="secondary" className="text-xs">
+                                {achievement}
+                              </Badge>
+                            ))}
+                          </div>
                         </div>
-                      </motion.div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="monthly" className="space-y-4">
-              <Card>
-                <CardHeader>
-                  <CardTitle className="flex items-center space-x-2">
-                    <Calendar className="h-5 w-5 text-[#FC5602]" />
-                    <span>This Month's Champions</span>
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
+                      </div>
+                      
+                      <div className="text-right">
+                        <div className="flex items-center space-x-2 mb-1">
+                          <Zap className="h-4 w-4 text-[#FC5602]" />
+                          <span className="text-lg font-bold text-gray-900">{user.totalPoints.toLocaleString()}</span>
+                          {getRankChangeIcon(user.rankChange)}
+                        </div>
+                        <p className="text-sm text-gray-600">
+                          {user.competitionsWon}/{user.competitionsParticipated} wins
+                        </p>
+                        <Badge variant="outline" className="text-xs mt-1">
+                          {user.category}
+                        </Badge>
+                      </div>
+                    </motion.div>
+                  ))
+                ) : (
                   <div className="text-center py-8">
                     <Trophy className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-                    <p className="text-gray-600">Monthly leaderboard will be available soon!</p>
+                    <p className="text-gray-600">No results found for the selected categories.</p>
+                    <Button
+                      variant="outline"
+                      onClick={clearAllCategories}
+                      className="mt-4"
+                    >
+                      Clear Filters
+                    </Button>
                   </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            <TabsContent value="categories" className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {categories.slice(1).map((category) => (
-                  <Card key={category}>
-                    <CardHeader>
-                      <CardTitle className="text-lg">{category} Leaders</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="space-y-3">
-                        {mockLeaderboardData
-                          .filter(user => user.category === category)
-                          .slice(0, 3)
-                          .map((user, index) => (
-                            <div key={user.id} className="flex items-center space-x-3">
-                              <div className="w-8 h-8 flex items-center justify-center">
-                                {getRankIcon(index + 1)}
-                              </div>
-                              <Avatar className="h-8 w-8">
-                                <AvatarFallback className="bg-[#FC5602] text-white text-sm">
-                                  {user.name.split(' ').map(n => n[0]).join('')}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1">
-                                <p className="font-medium text-sm">{user.name}</p>
-                                <p className="text-xs text-gray-600">{user.totalPoints} points</p>
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                )}
               </div>
-            </TabsContent>
-          </Tabs>
+            </CardContent>
+          </Card>
         </motion.div>
       </div>
     </div>

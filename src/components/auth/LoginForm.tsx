@@ -38,7 +38,7 @@ export function LoginForm() {
             router.push('/admin');
             break;
           case 'employer':
-            router.push('/employers');
+            router.push('/employer');
             break;
           case 'employee':
             router.push('/employee');
@@ -54,9 +54,9 @@ export function LoginForm() {
 
   const quickLogin = (userType: 'admin' | 'employer' | 'employee') => {
     const credentials = {
-      admin: 'admin@giggini.com',
-      employer: 'employer@giggini.com',
-      employee: 'employee@giggini.com'
+      admin: 'admin@gigGeni.com',
+      employer: 'employer@gigGeni.com',
+      employee: 'employee@gigGeni.com'
     };
     
     setEmail(credentials[userType]);
@@ -67,7 +67,7 @@ export function LoginForm() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-orange-50 to-orange-100 p-4">
       <div className="w-full max-w-md space-y-6">
         <div className="text-center">
-          <h1 className="text-3xl font-bold gradient-text">GiG Gini</h1>
+          <h1 className="text-3xl font-bold gradient-text">GiG Geni</h1>
           <p className="text-gray-600 mt-2">Sign in to your account</p>
         </div>
 
@@ -193,9 +193,9 @@ export function LoginForm() {
             <div className="text-sm text-gray-600">
               <p className="font-medium mb-2">Demo Credentials:</p>
               <div className="space-y-1">
-                <p><strong>Admin:</strong> admin@giggini.com / password123</p>
-                <p><strong>Employer:</strong> employer@giggini.com / password123</p>
-                <p><strong>Employee:</strong> employee@giggini.com / password123</p>
+                <p><strong>Admin:</strong> admin@gigGeni.com / password123</p>
+                <p><strong>Employer:</strong> employer@gigGeni.com / password123</p>
+                <p><strong>Employee:</strong> employee@gigGeni.com / password123</p>
               </div>
             </div>
           </CardContent>

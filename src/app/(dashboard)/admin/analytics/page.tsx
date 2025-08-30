@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Analytics - Admin Dashboard | GiG Gini',
-  description: 'View comprehensive analytics and insights for the GiG Gini platform. Monitor user engagement, competition performance, and revenue metrics.',
+  title: 'Analytics - Admin Dashboard | GiG Geni',
+  description: 'View comprehensive analytics and insights for the GiG Geni platform. Monitor user engagement, competition performance, and revenue metrics.',
   keywords: 'analytics, admin dashboard, platform metrics, user engagement, revenue analytics',
 };
 

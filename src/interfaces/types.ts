@@ -42,6 +42,7 @@ export interface Competition {
   skillsTested: string[];
   projectBrief?: string;
   termsAndConditions: string[];
+  // participantCount: number;
   submissionFormats: string[];
   maxFileSize?: string;
   maxParticipants?: number;

@@ -143,7 +143,7 @@ export function Roadmap() {
             Our Vision
           </Badge>
           <h2 className="text-4xl md:text-5xl font-bold text-gray-900">
-            GiG Gini <span className="gradient-text">Ambition</span> & Roadmap
+            GiG Geni <span className="gradient-text">Ambition</span> & Roadmap
           </h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed">
             Building the future of work by revolutionizing how talent connects with opportunity 

@@ -1,6 +1,6 @@
 
 
-# 🔹 GiG Gini – Frontend Development Workflow
+# 🔹 GiG Geni – Frontend Development Workflow
 
 ## 1. Navigation (Global Header)
 
@@ -24,7 +24,7 @@
 * **Employee vs Employer Benefits** → Split two-column layout.
 * **Competition Flow Section** → Visual 4-step roadmap:
   `Questions → Video → Zoom Interview → Task Evaluation`.
-* **GiG Gini Ambition & Roadmap** → Infographic of future plans.
+* **GiG Geni Ambition & Roadmap** → Infographic of future plans.
 * **Upcoming Features & Mobile App Signup** → Form for waitlist.
 * **Footer** → About | Terms | Privacy | Contact | Social Links.
 

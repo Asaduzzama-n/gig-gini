@@ -47,17 +47,17 @@ The `ProtectedRoute` component now:
 
 ## 🔐 **Access Restrictions**
 
-### **Admin Users** (`admin@giggini.com`)
+### **Admin Users** (`admin@gigGeni.com`)
 - ✅ **Can Access**: `/admin/*` (all admin pages)
 - ❌ **Cannot Access**: `/employer/*`, `/employee/*`
 - **Redirect**: If tries to access employer/employee areas → redirected to `/admin`
 
-### **Employer Users** (`employer@giggini.com`)
+### **Employer Users** (`employer@gigGeni.com`)
 - ✅ **Can Access**: `/employer/*` (all employer pages)
 - ❌ **Cannot Access**: `/admin/*`, `/employee/*`
 - **Redirect**: If tries to access admin/employee areas → redirected to `/employer`
 
-### **Employee Users** (`employee@giggini.com`)
+### **Employee Users** (`employee@gigGeni.com`)
 - ✅ **Can Access**: `/employee/*` (all employee pages)
 - ❌ **Cannot Access**: `/admin/*`, `/employer/*`
 - **Redirect**: If tries to access admin/employer areas → redirected to `/employee`
@@ -65,17 +65,17 @@ The `ProtectedRoute` component now:
 ## 🚀 **How to Test Role-Based Access**
 
 ### **Test 1: Admin Access Control**
-1. Login as admin (`admin@giggini.com` / `password123`)
+1. Login as admin (`admin@gigGeni.com` / `password123`)
 2. Try to manually navigate to `/employer` or `/employee`
 3. **Expected**: Automatically redirected back to `/admin`
 
 ### **Test 2: Employer Access Control**
-1. Login as employer (`employer@giggini.com` / `password123`)
+1. Login as employer (`employer@gigGeni.com` / `password123`)
 2. Try to manually navigate to `/admin` or `/employee`
 3. **Expected**: Automatically redirected back to `/employer`
 
 ### **Test 3: Employee Access Control**
-1. Login as employee (`employee@giggini.com` / `password123`)
+1. Login as employee (`employee@gigGeni.com` / `password123`)
 2. Try to manually navigate to `/admin` or `/employer`
 3. **Expected**: Automatically redirected back to `/employee`
 

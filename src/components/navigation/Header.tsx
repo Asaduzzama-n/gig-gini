@@ -85,7 +85,7 @@ export function Header() {
             <div className="h-8 w-8 rounded-lg bg-[#FC5602] flex items-center justify-center">
               <span className="text-white font-bold text-lg">G</span>
             </div>
-            <span className="text-xl font-bold gradient-text">GiG Gini</span>
+            <span className="text-xl font-bold gradient-text">GiG Geni</span>
           </motion.div>
         </Link>
 
@@ -138,14 +138,6 @@ export function Header() {
                 </Link>
               )}
 
-              {user?.role === 'employer' && (
-                <Link href="/employer/competitions/create">
-                  <Button className="btn-primary" size="sm">
-                    <Plus className="h-4 w-4 mr-2" />
-                    Create Competition
-                  </Button>
-                </Link>
-              )}
 
               {/* Notifications */}
               <Button variant="ghost" size="sm" className="relative">
@@ -265,7 +257,7 @@ export function Header() {
                   <div className="h-6 w-6 rounded bg-[#FC5602] flex items-center justify-center">
                     <span className="text-white font-bold text-sm">G</span>
                   </div>
-                  <span className="gradient-text">GiG Gini</span>
+                  <span className="gradient-text">GiG Geni</span>
                 </SheetTitle>
                 <SheetDescription>
                   Navigate through competitive hiring platform

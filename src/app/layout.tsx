@@ -18,20 +18,20 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: {
-    default: "GiG Gini - Competitive Hiring Platform",
-    template: "%s | GiG Gini"
+    default: "GiG Geni - Competitive Hiring Platform",
+    template: "%s | GiG Geni"
   },
-  description: "Transform your hiring process with GiG Gini's competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.",
+  description: "Transform your hiring process with GiG Geni's competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.",
   keywords: "hiring platform, competitive hiring, skill-based recruitment, talent acquisition, job competitions, developer challenges, remote hiring",
-  authors: [{ name: "GiG Gini Team" }],
-  creator: "GiG Gini",
-  publisher: "GiG Gini",
+  authors: [{ name: "GiG Geni Team" }],
+  creator: "GiG Geni",
+  publisher: "GiG Geni",
   formatDetection: {
     email: false,
     address: false,
     telephone: false,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://giggini.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || 'https://gigGeni.com'),
   alternates: {
     canonical: '/',
   },
@@ -39,15 +39,15 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'en_US',
     url: '/',
-    title: 'GiG Gini - Competitive Hiring Platform',
-    description: 'Transform your hiring process with GiG Gini\'s competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.',
-    siteName: 'GiG Gini',
+    title: 'GiG Geni - Competitive Hiring Platform',
+    description: 'Transform your hiring process with GiG Geni\'s competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.',
+    siteName: 'GiG Geni',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'GiG Gini - Competitive Hiring Platform',
-    description: 'Transform your hiring process with GiG Gini\'s competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.',
-    creator: '@giggini',
+    title: 'GiG Geni - Competitive Hiring Platform',
+    description: 'Transform your hiring process with GiG Geni\'s competitive platform. Connect talented professionals with innovative companies through skill-based competitions and challenges.',
+    creator: '@gigGeni',
   },
   robots: {
     index: true,

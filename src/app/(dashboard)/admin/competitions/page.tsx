@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Competition Management - Admin Dashboard | GiG Gini',
-  description: 'Manage competitions on the GiG Gini platform. Monitor active competitions, review submissions, and analyze competition performance.',
+  title: 'Competition Management - Admin Dashboard | GiG Geni',
+  description: 'Manage competitions on the GiG Geni platform. Monitor active competitions, review submissions, and analyze competition performance.',
   keywords: 'competition management, admin dashboard, competition analytics, contest management',
 };
 

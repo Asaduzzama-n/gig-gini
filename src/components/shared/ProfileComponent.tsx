@@ -89,7 +89,7 @@ const mockProfileData: Record<string, ProfileData> = {
   admin: {
     id: '3',
     name: 'Michael Chen',
-    email: 'michael@giggini.com',
+    email: 'michael@gigGeni.com',
     phone: '+1 (555) 456-7890',
     location: 'Seattle, WA',
     avatar: '',

@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Interviews - Employee Dashboard | GiG Gini',
-  description: 'View your scheduled interviews, prepare for upcoming meetings, and track interview history on the GiG Gini platform.',
+  title: 'Interviews - Employee Dashboard | GiG Geni',
+  description: 'View your scheduled interviews, prepare for upcoming meetings, and track interview history on the GiG Geni platform.',
   keywords: 'employee interviews, interview schedule, interview preparation, employee dashboard, job interviews',
 };
 

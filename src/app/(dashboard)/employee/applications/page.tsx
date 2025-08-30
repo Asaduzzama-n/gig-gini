@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'My Applications - Employee Dashboard | GiG Gini',
-  description: 'Track your job applications, view application status, and manage your application history on the GiG Gini platform.',
+  title: 'My Applications - Employee Dashboard | GiG Geni',
+  description: 'Track your job applications, view application status, and manage your application history on the GiG Geni platform.',
   keywords: 'job applications, application status, employee dashboard, application history, job tracking',
 };
 

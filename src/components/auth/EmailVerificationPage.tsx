@@ -43,7 +43,7 @@ export function EmailVerificationPage() {
             // Redirect to role-specific dashboard
             const roleRoutes = {
                 'admin': '/admin',
-                'employer': '/employers',
+                'employer': '/employer',
                 'employee': '/employee'
             };
             router.push(roleRoutes[user.role as keyof typeof roleRoutes] || '/employee');
@@ -113,7 +113,7 @@ export function EmailVerificationPage() {
                     // Redirect to role-specific dashboard
                     const roleRoutes = {
                         'admin': '/admin',
-                        'employer': '/employers',
+                        'employer': '/employer',
                         'employee': '/employee'
                     };
                     router.push(roleRoutes[user.role as keyof typeof roleRoutes] || '/employee');

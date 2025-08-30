@@ -2,10 +2,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: {
-    default: "Authentication | GiG Gini",
-    template: "%s | GiG Gini"
+    default: "Authentication | GiG Geni",
+    template: "%s | GiG Geni"
   },
-  description: "Sign in or create your GiG Gini account to access the competitive hiring platform.",
+  description: "Sign in or create your GiG Geni account to access the competitive hiring platform.",
 };
 
 export default function AuthLayout({

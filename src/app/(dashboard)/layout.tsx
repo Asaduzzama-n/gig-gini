@@ -18,7 +18,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   // Memoize user role based on the current path
   const userRole = useMemo((): 'admin' | 'employer' | 'employee' => {
     if (pathname.startsWith('/admin')) return 'admin';
-    if (pathname.startsWith('/employers')) return 'employer';
+    if (pathname.startsWith('/employer')) return 'employer';
     if (pathname.startsWith('/employee')) return 'employee';
     return 'employee'; // default fallback
   }, [pathname]);
@@ -26,7 +26,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
   // Memoize path to tab mapping
   const pathToTabMap = useMemo(() => ({
     'admin': 'overview',
-    'employers': 'overview',
+    'employer': 'overview',
     'employee': 'overview',
     'users': 'users',
     'competitions': 'competitions',
@@ -60,7 +60,7 @@ function DashboardLayoutContent({ children }: { children: React.ReactNode }) {
       case 'admin':
         return '/admin';
       case 'employer':
-        return '/employers';
+        return '/employer';
       case 'employee':
         return '/employee';
       default:

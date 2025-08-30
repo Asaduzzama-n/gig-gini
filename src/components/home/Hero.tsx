@@ -14,6 +14,9 @@ import {
   Sparkles,
   TrendingUp,
 } from 'lucide-react';
+import RecentWinnersCarousel from '../ui/recent-winner';
+import { winnersData } from '@/utils/mockdata';
+
 
 const stats = [
   { label: 'Active Competitions', value: '500+', icon: Trophy },
@@ -44,6 +47,7 @@ export function Hero() {
           ease: "easeInOut" 
         }}
         className="absolute top-20 left-10 w-24 h-24 bg-gradient-to-br from-[#FC5602]/20 to-[#FF7B02]/10 rounded-full blur-xl"
+        style={{ willChange: 'transform' }}
       />
       <motion.div 
         animate={{ 
@@ -58,6 +62,7 @@ export function Hero() {
           delay: 2
         }}
         className="absolute top-40 right-20 w-36 h-36 bg-gradient-to-br from-blue-500/15 to-purple-500/10 rounded-full blur-xl"
+        style={{ willChange: 'transform' }}
       />
       <motion.div 
         animate={{ 
@@ -72,6 +77,7 @@ export function Hero() {
           delay: 4
         }}
         className="absolute bottom-20 left-20 w-28 h-28 bg-gradient-to-br from-green-500/15 to-[#FC5602]/10 rounded-full blur-xl"
+        style={{ willChange: 'transform' }}
       />
       <motion.div 
         animate={{ 
@@ -85,6 +91,7 @@ export function Hero() {
           ease: "linear"
         }}
         className="absolute top-1/2 right-10 w-20 h-20 bg-gradient-to-br from-purple-500/10 to-pink-500/10 rounded-full blur-lg"
+        style={{ willChange: 'transform' }}
       />
 
       <div className="container-width section-padding relative">
@@ -156,14 +163,14 @@ export function Hero() {
               <Link href="/competitions">
                 <Button 
                   size="lg" 
-                  className="btn-primary group w-full sm:w-auto text-lg px-8 py-4"
+                  className="btn-primary group w-full sm:w-auto text-lg px-8 py-4 border border-orange-500  hover:text-orange-500"
                 >
                   Join Competition
-                  <Trophy className="ml-2 h-5 w-5 group-hover:rotate-12 transition-transform" />
+                  <Trophy className="ml-2 text-orange-600 h-5 w-5 group-hover:rotate-12 transition-transform duration-300 " />
                 </Button>
               </Link>
               
-              <Link href="/employers/create">
+              <Link href="/employer/competitions/create">
                 <Button 
                   size="lg" 
                   variant="outline"
@@ -211,7 +218,7 @@ export function Hero() {
                 }}
                 className="bg-white/95 backdrop-blur-sm rounded-2xl shadow-2xl p-8 border border-gray-200/50 ring-1 ring-gray-100/50"
               >
-                <div className="space-y-6">
+                {/* <div className="space-y-6">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-3">
                       <div className="w-12 h-12 bg-gradient-to-br from-[#FC5602] to-[#FF7B02] rounded-xl flex items-center justify-center">
@@ -252,7 +259,8 @@ export function Hero() {
                       <p className="text-xs text-gray-600 font-medium">Participants</p>
                     </div>
                   </div>
-                </div>
+                </div> */}
+                <RecentWinnersCarousel winners={winnersData} interval={4000}/>
               </motion.div>
               
               {/* Floating Elements */}

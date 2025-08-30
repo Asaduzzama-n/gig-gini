@@ -64,9 +64,9 @@ export default function LoginPage() {
 
   const quickLogin = async (userType: 'admin' | 'employer' | 'employee') => {
     const credentials = {
-      admin: 'admin@giggini.com',
-      employer: 'employer@giggini.com',
-      employee: 'employee@giggini.com'
+      admin: 'admin@gigGeni.com',
+      employer: 'employer@gigGeni.com',
+      employee: 'employee@gigGeni.com'
     };
     
     setError('');
@@ -116,7 +116,7 @@ export default function LoginPage() {
             <span className="text-white font-bold text-xl">GG</span>
           </motion.div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Welcome Back</h1>
-          <p className="text-gray-600">Sign in to your GiG Gini account</p>
+          <p className="text-gray-600">Sign in to your GiG Geni account</p>
         </div>
 
         <Card className="p-8 backdrop-blur-sm bg-white/80 border-0 shadow-xl">
@@ -255,9 +255,9 @@ export default function LoginPage() {
             <div className="text-sm text-gray-600">
               <p className="font-medium mb-2">Demo Credentials:</p>
               <div className="space-y-1">
-                <p><strong>Admin:</strong> admin@giggini.com / password123</p>
-                <p><strong>Employer:</strong> employer@giggini.com / password123</p>
-                <p><strong>Employee:</strong> employee@giggini.com / password123</p>
+                <p><strong>Admin:</strong> admin@gigGeni.com / password123</p>
+                <p><strong>Employer:</strong> employer@gigGeni.com / password123</p>
+                <p><strong>Employee:</strong> employee@gigGeni.com / password123</p>
               </div>
             </div>
           </div>

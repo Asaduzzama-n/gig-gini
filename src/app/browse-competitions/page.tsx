@@ -2,12 +2,16 @@
 "use client";
 
 import { useState, useEffect } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
 import { motion } from 'framer-motion';
-import { Search, MapPin, Calendar, Trophy, Users } from 'lucide-react';
+import { Search, MapPin, Calendar, Trophy, Users, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { CategoryFilter } from '@/components/shared/CategoryFilter';
 import Link from 'next/link';
+import { mockCompetitions } from '@/utils/mockdata';
 
 interface Competition {
   id: string;
@@ -27,66 +31,40 @@ interface Competition {
 }
 
 // Mock data - replace with API call
-const mockCompetitions: Competition[] = [
-  {
-    id: '1',
-    title: 'Full Stack Developer Challenge',
-    organizer: 'TechCorp Solutions',
-    location: 'Remote',
-    rating: 4.8,
-    categories: ['IT', 'Programming'],
-    prizes: '$5000 + Job Offer',
-    registrationFee: 'Free',
-    startDate: new Date('2024-09-15'),
-    endDate: new Date('2024-10-15'),
-    resultDate: new Date('2024-10-22'),
-    description: 'Build a complete e-commerce application using React, Node.js, and MongoDB.',
-    skillsTested: ['React', 'Node.js', 'MongoDB', 'REST APIs'],
-    participantCount: 234
-  },
-  {
-    id: '2',
-    title: 'Digital Marketing Campaign Contest',
-    organizer: 'Marketing Masters Inc',
-    location: 'New York, NY',
-    rating: 4.6,
-    categories: ['Marketing', 'Business'],
-    prizes: '$3000 + Internship',
-    registrationFee: '$25',
-    startDate: new Date('2024-09-20'),
-    endDate: new Date('2024-10-20'),
-    resultDate: new Date('2024-10-25'),
-    description: 'Create and execute a comprehensive digital marketing strategy for a startup.',
-    skillsTested: ['Social Media Marketing', 'SEO', 'Content Creation', 'Analytics'],
-    participantCount: 156
-  },
-  {
-    id: '3',
-    title: 'Sales Excellence Championship',
-    organizer: 'SalesForce Elite',
-    location: 'Chicago, IL',
-    rating: 4.9,
-    categories: ['Sales', 'Business'],
-    prizes: '$4000 + Commission Role',
-    registrationFee: 'Free',
-    startDate: new Date('2024-09-25'),
-    endDate: new Date('2024-10-25'),
-    resultDate: new Date('2024-11-01'),
-    description: 'Demonstrate your sales skills through role-play scenarios and real client pitches.',
-    skillsTested: ['Cold Calling', 'Negotiation', 'CRM Software', 'Presentation'],
-    participantCount: 89
-  }
-];
 
 export default function CompetitionsPage() {
   const [competitions, setCompetitions] = useState<Competition[]>([]);
   const [filteredCompetitions, setFilteredCompetitions] = useState<Competition[]>([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('all');
-  const [sortBy, setSortBy] = useState('newest');
   const [isLoading, setIsLoading] = useState(true);
+  
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  
+  const searchTerm = searchParams.get('search') || '';
+  const selectedCategories = searchParams.get('categories')?.split(',').filter(Boolean) || [];
 
-  const categories = ['all', 'IT', 'Marketing', 'Sales', 'Business', 'Design'];
+  const categories = ['IT', 'Marketing', 'Sales', 'Business', 'Design'];
+  
+  const updateURL = (key: string, value: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (value === '') {
+      params.delete(key);
+    } else {
+      params.set(key, value);
+    }
+    router.push(`?${params.toString()}`);
+  };
+  
+  const toggleCategory = (category: string) => {
+    const newCategories = selectedCategories.includes(category)
+      ? selectedCategories.filter(c => c !== category)
+      : [...selectedCategories, category];
+    updateURL('categories', newCategories.join(','));
+  };
+
+  const clearAllCategories = () => {
+    updateURL('categories', '');
+  };
 
   useEffect(() => {
     // Simulate API call
@@ -113,29 +91,17 @@ export default function CompetitionsPage() {
       );
     }
 
-    // Filter by category
-    if (selectedCategory !== 'all') {
+    // Filter by categories
+    if (selectedCategories.length > 0) {
       filtered = filtered.filter(comp => 
-        comp.categories.includes(selectedCategory)
+        comp.categories.some(cat => selectedCategories.includes(cat))
       );
     }
 
-    // Sort competitions
-    filtered.sort((a, b) => {
-      switch (sortBy) {
-        case 'newest':
-          return new Date(b.startDate || 0).getTime() - new Date(a.startDate || 0).getTime();
-        case 'rating':
-          return (b.rating || 0) - (a.rating || 0);
-        case 'participants':
-          return (b.participantCount || 0) - (a.participantCount || 0);
-        default:
-          return 0;
-      }
-    });
+
 
     setFilteredCompetitions(filtered);
-  }, [searchTerm, selectedCategory, sortBy, competitions]);
+  }, [searchTerm, selectedCategories.join(','), competitions]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -153,51 +119,36 @@ export default function CompetitionsPage() {
         </div>
       </div> */}
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 ">
+      <div className="max-w-7xl mx-auto  ">
         {/* Filters */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className=" rounded-lg p-6 mb-8 bg-white shadow-sm"
+          className="rounded-lg p-8 mb-8 bg-white shadow-lg border border-gray-100"
         >
-          <div className="flex flex-col lg:flex-row lg:items-center  lg:justify-between gap-4">
-            <div className="flex-1 max-w-md">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                <Input
-                  placeholder="Search competitions..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10 border-orange-500 border-2 rounded-lg "
-                />
-              </div>
-            </div>
-
-            <div className="flex flex-wrap gap-4">
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              >
-                {categories.map(category => (
-                  <option key={category} value={category}>
-                    {category === 'all' ? 'All Categories' : category}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
-              >
-                <option value="newest">Newest First</option>
-                <option value="rating">Highest Rated</option>
-                <option value="participants">Most Popular</option>
-              </select>
+          {/* Search Section */}
+          <div className="mb-6">
+            <h2 className="text-2xl font-bold text-gray-900 mb-4">Find Your Perfect Competition</h2>
+            <div className="relative ">
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Input
+                placeholder="Search by title, organizer, or skills..."
+                value={searchTerm}
+                onChange={(e) => updateURL('search', e.target.value)}
+                className="pl-12 pr-4 py-3 text-lg border-2 border-gray-200 rounded-xl focus:border-orange-500 focus:ring-4 focus:ring-orange-100 transition-all duration-200 shadow-sm"
+              />
             </div>
           </div>
+
+          {/* Category Filters */}
+          <CategoryFilter
+             categories={categories}
+             selectedCategories={selectedCategories}
+             onToggleCategory={toggleCategory}
+             onClearAll={clearAllCategories}
+             className="-m-6 mb-2"
+           />
         </motion.div>
 
         {/* Results Count */}
@@ -279,8 +230,8 @@ function CompetitionCard({ competition }: CompetitionCardProps) {
   const remainingDays = getRemainingDays(competition.endDate);
 
   return (
-    <Card className="group transition-all shadow-sm bg-white duration-300 border-0 ">
-      <div className="p-6">
+    <Card className="group transition-all shadow-sm bg-white duration-300 border-0 h-full flex flex-col">
+      <div className="p-6 flex-1 flex flex-col">
         {/* Header */}
         <div className="flex items-start justify-between mb-4">
           <div className="flex-1">
@@ -377,14 +328,16 @@ function CompetitionCard({ competition }: CompetitionCardProps) {
         </div>
 
         {/* Action Button */}
-        <Button
-          asChild
-          className="w-full mt-4 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
-        >
-          <Link href={`/browse-competitions/${competition.id}`}>
-            View Details
-          </Link>
-        </Button>
+        <div className="mt-auto pt-4">
+          <Button
+            asChild
+            className="w-full bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"
+          >
+            <Link href={`/browse-competitions/${competition.id}`}>
+              View Details
+            </Link>
+          </Button>
+        </div>
       </div>
     </Card>
   );

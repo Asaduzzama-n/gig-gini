@@ -29,7 +29,7 @@ const upcomingFeatures = [
     icon: Smartphone,
     title: 'Mobile App',
     description: 'Complete competitions on-the-go with native iOS and Android apps',
-    comingSoon: 'Q2 2025',
+    comingSoon: 'Q1 2026',
     color: 'from-blue-500 to-blue-600',
     benefits: ['Offline mode', 'Push notifications', 'Mobile-first UI', 'Real-time updates'],
   },
@@ -74,6 +74,8 @@ const upcomingFeatures = [
     benefits: ['Multi-language', 'Local currencies', 'Regional compliance', 'Cultural adaptation'],
   },
 ];
+
+
 
 const waitlistBenefits = [
   'Early access to new features',

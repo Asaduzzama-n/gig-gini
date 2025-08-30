@@ -1,8 +1,8 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Subscriptions - Admin Dashboard | GiG Gini',
-  description: 'Manage user subscriptions, billing, and payment plans on the GiG Gini platform.',
+  title: 'Subscriptions - Admin Dashboard | GiG Geni',
+  description: 'Manage user subscriptions, billing, and payment plans on the GiG Geni platform.',
   keywords: 'subscription management, billing, payment plans, admin dashboard, user subscriptions',
 };
 
