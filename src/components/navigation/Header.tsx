@@ -37,7 +37,47 @@ import { Separator } from '@radix-ui/react-dropdown-menu';
 
 import { useAuthStore } from '@/stores/authStore';
 
-const navItems = [
+const publicNavItems = [
+  { href: '/', label: 'Home' },
+  { href: '/browse-competitions', label: 'Competitions' },
+  { href: '/leaderboards', label: 'Leaderboards' },
+];
+
+const adminNavItems = [
+  { href: '/', label: 'Home' },
+  { href: '/admin', label: 'Overview' },
+  { href: '/admin/users', label: 'Users' },
+  { href: '/admin/competitions', label: 'Competitions' },
+  { href: '/admin/subscriptions', label: 'Subscriptions' },
+  { href: '/admin/analytics', label: 'Analytics' },
+  { href: '/admin/reports', label: 'Reports' },
+  { href: '/admin/content', label: 'Content' },
+  { href: '/admin/notifications', label: 'Notifications' },
+  { href: '/admin/settings', label: 'Settings' },
+];
+
+const employerNavItems = [
+  { href: '/', label: 'Home' },
+  { href: '/employer', label: 'My Competitions' },
+  { href: '/employer/candidates', label: 'Candidates' },
+  { href: '/employer/interviews', label: 'Interviews' },
+  { href: '/employer/profile', label: 'Profile' },
+];
+
+const employeeNavItems = [
+  { href: '/', label: 'Home' },
+  { href: '/employee', label: 'Dashboard' },
+  { href: '/employee/competitions', label: 'My Competitions' },
+  { href: '/employee/applications', label: 'Applications' },
+  { href: '/employee/achievements', label: 'Achievements' },
+  { href: '/employee/leaderboard', label: 'Leaderboard' },
+  { href: '/employee/interviews', label: 'Interviews' },
+  { href: '/employee/messages', label: 'Messages' },
+  { href: '/employee/profile', label: 'Profile' },
+  { href: '/employee/settings', label: 'Settings' },
+];
+
+const mobileBasicNavItems = [
   { href: '/', label: 'Home' },
   { href: '/browse-competitions', label: 'Competitions' },
   { href: '/leaderboards', label: 'Leaderboards' },
@@ -50,6 +90,22 @@ export function Header() {
   const router = useRouter();
 
   const { user, isAuthenticated, logout } = useAuthStore();
+
+  // Get navigation items based on user role
+  const getNavItems = () => {
+    if (!isAuthenticated || !user) return publicNavItems;
+    
+    switch (user.role) {
+      case 'admin': return adminNavItems;
+      case 'employer': return employerNavItems;
+      case 'employee': return employeeNavItems;
+      default: return publicNavItems;
+    }
+  };
+
+  const navItems = getNavItems();
+  const visibleNavItems = navItems.slice(0, 5); // Show first 5 items on desktop
+  const moreNavItems = navItems.slice(5); // Remaining items for dropdown/mobile
 
   useEffect(() => {
     const handleScroll = () => {
@@ -90,15 +146,16 @@ export function Header() {
         </Link>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-8">
-          {navItems.map((item) => (
+        <nav className="hidden md:flex items-center space-x-6">
+          {visibleNavItems.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`relative font-medium transition-colors duration-200 ${pathname === item.href
-                ? 'text-[#FC5602]'
-                : 'text-gray-600 hover:text-[#FC5602]'
-                }`}
+              className={`relative font-medium transition-colors duration-200 ${
+                pathname === item.href
+                  ? 'text-[#FC5602]'
+                  : 'text-gray-600 hover:text-[#FC5602]'
+              }`}
             >
               {item.label}
               {pathname === item.href && (
@@ -109,6 +166,26 @@ export function Header() {
               )}
             </Link>
           ))}
+          
+          {/* More dropdown for additional items */}
+          {moreNavItems.length > 0 && (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="font-medium text-gray-600 hover:text-[#FC5602]">
+                  More
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                {moreNavItems.map((item) => (
+                  <DropdownMenuItem key={item.href} asChild>
+                    <Link href={item.href} className="cursor-pointer">
+                      {item.label}
+                    </Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          )}
         </nav>
 
         {/* Auth Section */}
@@ -235,13 +312,13 @@ export function Header() {
             </div>
           )}
 
-          {/* Mobile Menu Toggle */}
+          {/* Mobile Menu Toggle - Hidden on small screens, shown on medium+ */}
           <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
-                className="md:hidden"
+                className="hidden md:block lg:hidden"
               >
                 <Menu className="h-5 w-5" />
               </Button>
@@ -266,20 +343,50 @@ export function Header() {
 
               {/* Scrollable body */}
               <div className="flex-1 overflow-y-auto px-4 py-6 space-y-4">
-                {/* Mobile Navigation Links */}
-                {navItems.map((item) => (
+                {/* Mobile Navigation Links - Show basic items for unauthenticated users, all items for authenticated */}
+                {(isAuthenticated ? navItems : mobileBasicNavItems).map((item) => (
                   <Link
                     key={item.href}
                     href={item.href}
                     onClick={() => setIsMobileMenuOpen(false)}
-                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${pathname === item.href
-                      ? 'text-[#FC5602] bg-orange-50 dark:bg-orange-500/10'
-                      : 'text-gray-600 dark:text-gray-300 hover:text-[#FC5602] hover:bg-gray-100 dark:hover:bg-gray-800'
-                      }`}
+                    className={`block px-3 py-2 rounded-md text-base font-medium transition-colors ${
+                      pathname === item.href
+                        ? 'text-[#FC5602] bg-orange-50 dark:bg-orange-500/10'
+                        : 'text-gray-600 dark:text-gray-300 hover:text-[#FC5602] hover:bg-gray-100 dark:hover:bg-gray-800'
+                    }`}
                   >
                     {item.label}
                   </Link>
                 ))}
+                
+                {/* Quick Actions for authenticated users */}
+                {isAuthenticated && (
+                  <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider mb-3">
+                      Quick Actions
+                    </p>
+                    {user?.role === 'employer' && (
+                      <Link
+                        href="/employer/create-competition"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#FC5602] hover:bg-gray-100"
+                      >
+                        <Plus className="h-5 w-5" />
+                        <span>Create Competition</span>
+                      </Link>
+                    )}
+                    {user?.role === 'employee' && (
+                      <Link
+                        href="/browse-competitions"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                        className="flex items-center space-x-3 px-3 py-2 rounded-md text-base font-medium text-gray-600 hover:text-[#FC5602] hover:bg-gray-100"
+                      >
+                        <Trophy className="h-5 w-5" />
+                        <span>Join Competition</span>
+                      </Link>
+                    )}
+                  </div>
+                )}
 
                 {/* Mobile Auth Section */}
                 <div className="pt-4 border-t border-gray-200 dark:border-gray-700 space-y-4">

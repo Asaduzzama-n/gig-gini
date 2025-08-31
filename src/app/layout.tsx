@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { NotificationProvider } from "@/providers/NotificationProvider";
 import { Header } from "@/components/navigation/Header";
+import { BottomNavigation } from "@/components/navigation/BottomNavigation";
 import { OnboardingProvider } from "@/components/onboarding/OnboardingProvider";
 
 const geistSans = Geist({
@@ -66,15 +67,16 @@ export const metadata: Metadata = {
 
 
 function LayoutContent({ children }: { children: React.ReactNode }) {
-
-
   return (
     <NotificationProvider>
       <OnboardingProvider>
         <Header />
-        <main className="min-h-screen">
-          {children}
+        <main className="min-h-screen pt-16 pb-20 md:pb-6">
+          <div className="py-6">
+            {children}
+          </div>
         </main>
+        <BottomNavigation />
         {/* <Footer /> */}
       </OnboardingProvider>
     </NotificationProvider>
